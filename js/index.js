@@ -12,7 +12,7 @@ function adicionar(e) {
     let prodQuant = quantidade.value;
 
     if (prodDescr === '' || prodQuant === '') {
-        alert("É necessário preencher descrição e quantidade.")
+        alert("É necessário preencher descrição e quantidade.");
         return;
     }
 
@@ -28,8 +28,8 @@ function newLinha(descricao, quantidade, preco = 0, total= 0) {
     preco = preco.toFixed(2);
     total = total.toFixed(2);
     return `<tr class="trTableValue"><td class="descProd">${descricao}</td>
-    <td><input type="number" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
-    <td><input type="number" onfocus="selectContent()" oninput="atualizaTotais()"  class="inputPreco" value="${preco}"></td>
+    <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
+    <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
     <td class="total">${total}</td><td><span class="material-symbols-outlined">delete</span></td></tr>`;
 }
 
