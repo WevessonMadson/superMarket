@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon"
+        href="https://w7.pngwing.com/pngs/833/426/png-transparent-black-shopping-cart-icon-for-free-black-shopping-cart-icon.png"
+        type="image/x-icon">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./css/index.css">
+    <title>SuperMarket</title>
+</head>
+
+<body>
+    <div id="app">
+        <form>
+            <div id="formDataCad">
+                <div id="labelCad">
+                    <label for="descricao">Descrição:</label>
+                    <label for="quantidade">Quantidade:</label>
+                </div>
+                <div id="inputsCad">
+                    <input type="text" id="descricao" placeholder="Arroz" onfocus="selectContent()">
+                    <input type="number" id="quantidade" onfocus="selectContent()">
+                </div>
+                <div>
+                    <button id="adicionar">Adicionar</button>
+                </div>
+            </div>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Qtd</th>
+                    <th>Preco Unit</th>
+                    <th>Subtotal</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <div id="totalCarr">
+                <p><strong>Valor total: R$ <span id="totLista">0,00</span></strong></p>
+            </div>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
