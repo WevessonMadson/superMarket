@@ -30,7 +30,7 @@ function newLinha(descricao, quantidade, preco = 0, total= 0) {
     return `<tr class="trTableValue"><td class="descProd">${descricao}</td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
-    <td class="total">${total}</td><td><span class="material-symbols-outlined">delete</span></td></tr>`;
+    <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;
 }
 
 function saveData() {
@@ -76,7 +76,7 @@ function selectContent() {
 function deleteProd(e) {
     let elExcluir = e.target;
 
-    if (elExcluir.innerText == 'delete') {
+    if (elExcluir.innerText === 'delete' && elExcluir.parentNode.classList[0] === 'action') {
         let elLinha = elExcluir.parentNode.parentNode;
         let descricao = elLinha.childNodes[0].innerText;
         if (confirm(`Confirma a exclusão do produto: "${descricao}" ?`)) {
