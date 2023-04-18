@@ -1,9 +1,10 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700;800;1000&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto Flex', sans-serif;
 }
 
 #app {
@@ -14,21 +15,27 @@
 
 #formDataCad {
     display: flex;
-    align-items: center;
+    align-items: end;
     gap: 10px;
     margin: 10px 0px;
     padding: 0px 5px;
 }
 
-#labelCad, #inputsCad {
+#labelCad,
+#inputsCad {
     width: fit-content;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+#labelCad {
+    font-size: 18px;
+}
+
 #inputsCad input {
     width: 150px;
+    padding: 2px;
 }
 
 #adicionar {
@@ -38,16 +45,53 @@
 }
 
 #totalCarr {
-    margin: 10px 0px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: center;
 }
 
-/* ---- Estilização da tabela ---- */
+#totalCarr p {
+    font-size: 18px;
+    font-weight: 400;
+    background-color: rgb(229, 241, 252);
+    padding: 5px;
+    border: 0.5px solid black;
+    border-radius: 7px;
+}
+
+a {
+    margin-bottom: 5px;
+}
+
+a img {
+    width: 90px;
+}
+
+#totLista {
+    font-weight: 600;
+}
+
+#container {
+    width: 98%;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-items: center;
+    position: relative;
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+#container table thead {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+}
 
 table {
     border: 1px solid rgba(128, 151, 144, 0.678);
-    width: 95%;
+    width: 100%;
 }
 
 #tbody tr:nth-child(odd) {
@@ -59,15 +103,16 @@ table {
     padding-left: 15px;
 }
 
-.inputQtd, .inputPreco {
+.inputQtd,
+.inputPreco {
     background-color: transparent;
     border: none;
     text-align: center;
-    width: 90px;
+    width: 60px;
 }
 
 .inputQtd {
-    width: 50px;
+    width: 40px;
 }
 
 #tbody th {
@@ -77,4 +122,18 @@ table {
 #tbody td {
     text-align: center;
     padding: 1px;
+    word-break: break-all;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+footer {
+    position: absolute;
+    top: 100%;
+}
+
+@media screen and (min-height: 710px) {
+    #container {
+        max-height: 650px;
+    }
 }

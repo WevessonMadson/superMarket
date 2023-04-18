@@ -23,30 +23,34 @@
                     <label for="quantidade">Quantidade:</label>
                 </div>
                 <div id="inputsCad">
-                    <input type="text" id="descricao" placeholder="Arroz" onfocus="selectContent()">
-                    <input type="number" id="quantidade" onfocus="selectContent()">
+                    <input type="text" id="descricao" placeholder="Ex.: Arroz" onfocus="selectContent()">
+                    <input type="number" id="quantidade" placeholder="Ex.: 1" onfocus="selectContent()">
                 </div>
                 <div>
                     <button id="adicionar">Adicionar</button>
                 </div>
             </div>
         </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Qtd</th>
-                    <th>Preco Unit</th>
-                    <th>Subtotal</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <div id="totalCarr">
-                <p><strong>Valor total: R$ <span id="totLista">0,00</span></strong></p>
-            </div>
-            <tbody id="tbody">
-            </tbody>
-        </table>
+        <div id="totalCarr">
+            <p>Valor total: <span id="totLista">R$ <span id="valTotCar">0,00</span></span></p>
+        </div>
+        <a href="https://www.linkedin.com/in/wevesson-madson-9a5a4615a/" target="_blanc"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+        <div id="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><span class="material-symbols-outlined">check_box</span></th>
+                        <th>Descrição</th>
+                        <th>Qtd</th>
+                        <th>Preço</th>
+                        <th>Subtotal</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="./js/index.js"></script>
 </body>
