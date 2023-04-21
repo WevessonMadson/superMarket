@@ -8,7 +8,7 @@ const trs = document.getElementsByClassName("trTableValue");
 function newLinha(descricao, quantidade, preco = 0, total= 0, checked = false) {
     preco = preco.toFixed(2);
     total = total.toFixed(2);
-    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="saveData()"></td><td class="descProd">${descricao}</td>
+    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reoganizar()"></td><td class="descProd">${descricao}</td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
     <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;
@@ -34,7 +34,9 @@ function adicionar(e) {
 }
 
 function saveData() {
-    const dataMarket = [];
+    const check = [];
+    const noCheck = [];
+
     let totProd = 0;
     for (let i = 0; i < trs.length; i++) {
         let checked = trs[i].childNodes[0].childNodes[0].checked;
@@ -43,8 +45,15 @@ function saveData() {
         let preco = Number(trs[i].getElementsByClassName("inputPreco")[0].value);
         let total = Number(qtd) * Number(preco);
         totProd += total;
-        dataMarket.push({ checked, descricao, qtd, preco, total });
+        if (checked) {
+            check.push({ checked, descricao, qtd, preco, total });
+        } else {
+            noCheck.push({ checked, descricao, qtd, preco, total });
+        }
     }
+
+    const dataMarket = noCheck.concat(check);
+
     localStorage.setItem("dataMarket", JSON.stringify(dataMarket));
     localStorage.setItem("total", JSON.stringify(totProd));
 }
@@ -86,6 +95,11 @@ function deleteProd(e) {
             getData();
         }
     }
+}
+
+function reoganizar() {
+    saveData();
+    getData();
 }
 
 window.addEventListener("DOMContentLoaded", getData);
