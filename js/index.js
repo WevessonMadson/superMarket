@@ -4,8 +4,9 @@ const quantidade = document.querySelector("#quantidade");
 const botaoAdicionar = document.querySelector("#adicionar");
 const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
+const acao = document.querySelector("#acao");
 
-function newLinha(descricao, quantidade, preco = 0, total= 0, checked = false) {
+function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
     total = total.toFixed(2);
     return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reoganizar()"></td><td class="descProd">${descricao}</td>
@@ -102,6 +103,19 @@ function reoganizar() {
     getData();
 }
 
+function deleteAll(e) {
+    const dataMarket = localStorage.getItem("dataMarket");
+
+    if (dataMarket) {
+        if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
+            localStorage.removeItem("dataMarket");
+            localStorage.removeItem("total");
+            getData();
+        };
+    }
+}
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
+acao.addEventListener("dblclick", deleteAll);
