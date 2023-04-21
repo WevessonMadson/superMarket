@@ -28,6 +28,7 @@ function adicionar(e) {
 
     tbody.innerHTML += newLinha(prodDescr, prodQuant);
     saveData();
+    getData();
 
     descricao.value = "";
     quantidade.value = "";
