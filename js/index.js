@@ -103,19 +103,35 @@ function reoganizar() {
     getData();
 }
 
-function deleteAll(e) {
+function deleteInsertAll(e) {
     const dataMarket = localStorage.getItem("dataMarket");
-
-    if (dataMarket) {
-        if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
-            localStorage.removeItem("dataMarket");
-            localStorage.removeItem("total");
+    try {
+        if (dataMarket) {
+            if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
+                localStorage.removeItem("dataMarket");
+                localStorage.removeItem("total");
+            };
             getData();
-        };
+            return;
+        } else {
+            const jsonList = prompt("Cole aqui o json com a lista...");
+            const dataList = JSON.parse(jsonList);
+
+            if (typeof dataList === "object") {
+                dataList.forEach(produto => {
+                    tbody.innerHTML += newLinha(produto.descricao, produto.qtd);
+                })
+                saveData();
+                getData();
+                return;
+            }
+        }
+    } catch (error) {
+        alert("Por favor, verifique o json passado.");
     }
 }
 
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
-acao.addEventListener("dblclick", deleteAll);
+acao.addEventListener("dblclick", deleteInsertAll);
