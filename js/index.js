@@ -118,7 +118,7 @@ function deleteInsertAll(e) {
             const jsonList = prompt("Cole aqui o json com a lista...");
             const dataList = JSON.parse(jsonList);
 
-            if (typeof dataList === "object") {
+            if (dataList && typeof dataList === "object") {
                 dataList.forEach(produto => {
                     tbody.innerHTML += newLinha(produto.descricao, produto.qtd);
                 })
