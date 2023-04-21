@@ -66,8 +66,8 @@ function getData() {
         JSON.parse(dataMarket).forEach(produto => {
             tbody.innerHTML += newLinha(produto.descricao, produto.qtd, produto.preco, produto.total, produto.checked);
         });
-        totProdSpan.innerText = Number(localStorage.getItem("total")).toFixed(2).replace(".", ",");
     }
+    totProdSpan.innerText = Number(localStorage.getItem("total")).toFixed(2).replace(".", ",");
 }
 
 function atualizaTotais() {
@@ -106,14 +106,14 @@ function reoganizar() {
 function deleteInsertAll(e) {
     const dataMarket = localStorage.getItem("dataMarket");
     try {
-        if (dataMarket) {
+        if (dataMarket) { //delete all
             if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
                 localStorage.removeItem("dataMarket");
                 localStorage.removeItem("total");
             };
             getData();
             return;
-        } else {
+        } else { //insert all
             const jsonList = prompt("Cole aqui o json com a lista...");
             const dataList = JSON.parse(jsonList);
 
