@@ -60,12 +60,17 @@
     border-radius: 7px;
 }
 
-a {
-    margin-bottom: 5px;
+#redes {
+    display: flex;
+    gap: 10px;
 }
 
-a img {
-    width: 90px;
+#redes img {
+    width: 40px;
+}
+
+#copy {
+    margin-bottom: 10px;
 }
 
 #totLista {
@@ -125,11 +130,6 @@ table {
     word-break: break-all;
     font-size: 14px;
     font-weight: 400;
-}
-
-footer {
-    position: absolute;
-    top: 100%;
 }
 
 @media screen and (min-height: 710px) {

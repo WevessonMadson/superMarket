@@ -1,6 +1,6 @@
 # Super Market 
 
-Projeto construído para ajudar no momento da feira, sabendo quanto tem de produto dentro do carrinho (utilidade doméstica).
+- Projeto construído para ajudar no momento de qualquer compra que precise de uma lista (utilidade doméstica).
 
 [🔗 Clique aqui para acessar](https://wevessonmadson.github.io/superMarket/)
 
@@ -14,7 +14,11 @@ Projeto construído para ajudar no momento da feira, sabendo quanto tem de produ
 
 ## Funcionalidades
 
-- Permite registrar o que tem no carrinho de compras no supermercado, por exemplo, e saber em tempo real quanto está o valor total das compras.
+- Criação de listas de compras;
+- Cálculo de subtotal por item;
+- Cálculo do total, a soma de tudo que você informou quantidade e preço unitário;
+- Organização da lista: o que está marcado como pego fica por último;
+- Permite deletar produtos da lista;
 
 ## 💛 Contato
 
