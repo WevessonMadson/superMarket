@@ -31,7 +31,7 @@ function adicionar(e) {
     getData();
 
     descricao.value = "";
-    quantidade.value = "";
+    quantidade.value = "1";
     descricao.focus();
 }
 
