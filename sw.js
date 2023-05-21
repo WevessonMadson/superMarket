@@ -6,7 +6,7 @@ const cacheName = 'v4';
 
 const resourcesToPrecache = [
     "/",
-    "index.html",
+    "/index.html",
     "/assets/favicon.png",
     "/assets/github-icon.png",
     "/assets/linkedin-icon.png",
@@ -44,7 +44,7 @@ const resourcesToPrecache = [
     "/assets/ios/1024.png",
     "/css/index.css",
     "/js/index.js",
-    "manifest.json",
+    "/manifest.json",
 ];
 
 self.addEventListener("install", (event) => {
