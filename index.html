@@ -61,7 +61,7 @@
     <script>
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('https://wevessonmadson.github.io/superMarket/sw.js')
                     .then(reg => console.log("registrado: ", reg))
                     .catch(error => console.log("Ocorreu erro no registro: ", error))
             });
