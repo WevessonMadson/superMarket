@@ -5,7 +5,7 @@
   "display": "standalone",
   "name": "superMarket",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": "https://wevessonmadson.github.io/superMarket/",
   "short_name": "superMarket",
   "start_url": "https://wevessonmadson.github.io/superMarket/",
   "theme_color": "#e5f1fc",
