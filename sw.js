@@ -13,7 +13,6 @@ const resourcesToPrecache = [
     "/assets/android/android-launchericon-48-48.png",
     "/assets/android/android-launchericon-72-72.png",
     "/assets/android/android-launchericon-96-96.png",
-    "/assets/android/android-launchericon-144-144.png",
     "/assets/android/android-launchericon-192-192.png",
     "/assets/android/android-launchericon-512-512.png",
     "/assets/ios/16.png",
