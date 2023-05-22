@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v8';
+const cacheName = 'v9';
 
 // 2- os resources que serão salvos no cache;
 
@@ -34,7 +34,6 @@ const resourcesToPrecache = [
     "/assets/ios/114.png",
     "/assets/ios/120.png",
     "/assets/ios/128.png",
-    "/assets/ios/144.png",
     "/assets/ios/152.png",
     "/assets/ios/167.png",
     "/assets/ios/180.png",
