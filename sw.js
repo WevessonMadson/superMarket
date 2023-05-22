@@ -1,11 +1,11 @@
 // 1- o nome do cache
 
-const cacheName = 'v12';
+const cacheName = 'v20';
 
 // 2- os resources que serão salvos no cache;
 
 const resourcesToPrecache = [
-    "https://wevessonmadson.github.io/superMarket/",
+    "/",
     "/index.html",
     "/assets/favicon.png",
     "/assets/github-icon.png",
