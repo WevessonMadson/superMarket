@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v29';
+const cacheName = 'v30';
 
 // 2- os resources que serão salvos no cache;
 
@@ -14,6 +14,8 @@ const resourcesToPrecache = [
     "/superMarket/assets/favicon.png",
     "/superMarket/assets/github-icon.png",
     "/superMarket/assets/linkedin-icon.png",
+    "/superMarket/assets/check_box.svg",
+    "/superMarket/assets/delete.svg",
     "/superMarket/assets/android/android-launchericon-48-48.png",
     "/superMarket/assets/android/android-launchericon-72-72.png",
     "/superMarket/assets/android/android-launchericon-96-96.png",
@@ -45,6 +47,7 @@ const resourcesToPrecache = [
     "/superMarket/assets/ios/512.png",
     "/superMarket/assets/ios/1024.png",
     "/superMarket/assets/screenshot/screen.png",
+    "https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700;800;1000&display=swap",
 ];
 
 self.addEventListener("install", (event) => {
