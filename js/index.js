@@ -12,7 +12,7 @@ function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) 
     return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reoganizar()"></td><td class="descProd">${descricao}</td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
-    <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">check_box</span></td></tr>`;
+    <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;
 }
 
 function adicionar(e) {
