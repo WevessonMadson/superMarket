@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v30';
+const cacheName = 'v31';
 
 // 2- os resources que serão salvos no cache;
 
@@ -48,6 +48,7 @@ const resourcesToPrecache = [
     "/superMarket/assets/ios/1024.png",
     "/superMarket/assets/screenshot/screen.png",
     "https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700;800;1000&display=swap",
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
 ];
 
 self.addEventListener("install", (event) => {
