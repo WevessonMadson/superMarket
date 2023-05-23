@@ -1,12 +1,16 @@
 // 1- o nome do cache
 
-const cacheName = 'v22';
+const cacheName = 'v25';
 
 // 2- os resources que serão salvos no cache;
 
 const resourcesToPrecache = [
-    "/superMarket",
+    "/",
     "/superMarket/index.html",
+    "/superMarket/manifest.json",
+    "/superMarket/sw.js",
+    "/superMarket/css/index.css",
+    "/superMarket/js/index.js",
     "/superMarket/assets/favicon.png",
     "/superMarket/assets/github-icon.png",
     "/superMarket/assets/linkedin-icon.png",
@@ -40,9 +44,7 @@ const resourcesToPrecache = [
     "/superMarket/assets/ios/256.png",
     "/superMarket/assets/ios/512.png",
     "/superMarket/assets/ios/1024.png",
-    "/superMarket/css/index.css",
-    "/superMarket/js/index.js",
-    "/superMarket/manifest.json",
+    "/superMarket/assets/screenshot/screen.png",
 ];
 
 self.addEventListener("install", (event) => {
