@@ -1,11 +1,10 @@
 // 1- o nome do cache
 
-const cacheName = 'v25';
+const cacheName = 'v26';
 
 // 2- os resources que serão salvos no cache;
 
 const resourcesToPrecache = [
-    "/",
     "/superMarket/index.html",
     "/superMarket/manifest.json",
     "/superMarket/sw.js",
