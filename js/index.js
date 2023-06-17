@@ -6,6 +6,8 @@ const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
+const btnAddList = document.querySelector("#actionNew");
+const btnDeleteList = document.querySelector("#actionDelete");
 
 function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
@@ -163,9 +165,42 @@ function updateOptions() {
             options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
         }
         listName.innerHTML = options;
+        if(listOfList[0] === undefined){
+            localStorage.setItem("listOfList", '[{"nome": "superMarket", "selected": true}]');
+            listName.innerHTML = `<option value="superMarket">superMarket</option>`
+        }
     } else {
         localStorage.setItem("listOfList", '[{"nome": "superMarket", "selected": true}]');
         listName.innerHTML = `<option value="superMarket">superMarket</option>`
+    }
+}
+
+function addList(e) {
+    const nameNewList = prompt("Como você quer chamar essa nova lista?");
+
+    if (nameNewList === "" || nameNewList === undefined || nameNewList === null) return;
+
+    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
+    const newListOfList = listOfList.map(lista => {
+        lista.selected = false;
+        return lista;
+    });
+    newListOfList.push({nome: nameNewList, selected: true});
+    localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+    getData();
+    atualizaTotais();
+}
+
+function deleteList(e) {
+    if (e) e.preventDefault();
+    if (confirm(`Confirma a exclusão da lista: "${listName.value}" ?`)) {
+        const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+        const newListOfList = listOfList.filter(lista => lista.nome != listName.value);
+        localStorage.removeItem(listName.value);
+        localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+        getData();
+        atualizaTotais();
     }
 }
 
@@ -174,3 +209,5 @@ botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
+btnAddList.addEventListener("click", addList);
+btnDeleteList.addEventListener("click", deleteList);
