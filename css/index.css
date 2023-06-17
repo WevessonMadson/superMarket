@@ -7,13 +7,28 @@
     font-family: 'Roboto Flex', sans-serif;
 }
 
+#header {
+    background-color: #05a2f5;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#listName {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
 #app {
     display: flex;
     flex-direction: column;
     align-items: center;
     max-width: 600px;
     margin: auto;
-    padding-top: 20px;
 }
 
 #formDataCad {

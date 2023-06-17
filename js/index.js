@@ -5,11 +5,12 @@ const botaoAdicionar = document.querySelector("#adicionar");
 const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
+const listName = document.querySelector("#listName");
 
 function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
     total = total.toFixed(2);
-    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reoganizar()"></td><td class="descProd">${descricao}</td>
+    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reorganizar()"></td><td class="descProd">${descricao}</td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
     <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;
@@ -56,12 +57,13 @@ function saveData() {
 
     const dataMarket = noCheck.concat(check);
 
-    localStorage.setItem("dataMarket", JSON.stringify(dataMarket));
+    localStorage.setItem(listName.value, JSON.stringify(dataMarket));
     localStorage.setItem("total", JSON.stringify(totProd));
 }
 
 function getData() {
-    const dataMarket = localStorage.getItem("dataMarket");
+    updateOptions();
+    const dataMarket = localStorage.getItem(listName.value);
     tbody.innerHTML = "";
     if (dataMarket) {
         JSON.parse(dataMarket).forEach(produto => {
@@ -74,7 +76,7 @@ function getData() {
 function atualizaTotais() {
     saveData();
     totProdSpan.innerText = Number(localStorage.getItem("total")).toFixed(2).replace(".", ",");
-    const dataMarket = JSON.parse(localStorage.getItem("dataMarket"));
+    const dataMarket = JSON.parse(localStorage.getItem(listName.value));
     for (let i = 0; i < trs.length; i++) {
         trs[i].getElementsByClassName("total")[0].innerText = dataMarket[i].total.toFixed(2);
     }
@@ -99,17 +101,17 @@ function deleteProd(e) {
     }
 }
 
-function reoganizar() {
+function reorganizar() {
     saveData();
     getData();
 }
 
 function deleteInsertAll(e) {
-    const dataMarket = localStorage.getItem("dataMarket");
+    const dataMarket = localStorage.getItem(listName.value);
     try {
-        if (dataMarket) { //delete all
+        if (dataMarket && dataMarket !== "[]") { //delete all
             if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
-                localStorage.removeItem("dataMarket");
+                localStorage.removeItem(listName.value);
                 localStorage.removeItem("total");
             };
             getData();
@@ -132,7 +134,43 @@ function deleteInsertAll(e) {
     }
 }
 
+function selectListName(e) {
+    if (e) e.preventDefault();
+    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+    const newListOfList = listOfList.map(lista => {
+        if (lista.nome === listName.value) {
+            lista.selected = true;
+        } else {
+            lista.selected = false;
+        }
+        return lista;
+    });
+    localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+    getData();
+    atualizaTotais();
+}
+
+function updateOptions() {
+    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+    
+    if(listOfList) {
+        let options = "";
+        const selected = listOfList.filter(lista => lista.selected === true);
+        const unSelected = listOfList.filter(lista => lista.selected === false);
+        const listFinal = selected.concat(unSelected);
+    
+        for (let i = 0; i < listFinal.length; i ++) {
+            options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
+        }
+        listName.innerHTML = options;
+    } else {
+        localStorage.setItem("listOfList", '[{"nome": "superMarket", "selected": true}]');
+        listName.innerHTML = `<option value="superMarket">superMarket</option>`
+    }
+}
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
+listName.addEventListener("change", selectListName);
