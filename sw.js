@@ -8,7 +8,6 @@ const resourcesToPrecache = [
     "/superMarket/",
     "/superMarket/index.html",
     "/superMarket/manifest.json",
-    "/superMarket/sw.js",
     "/superMarket/css/index.css",
     "/superMarket/js/index.js",
     "/superMarket/assets/favicon.png",
