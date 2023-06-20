@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v46';
+const cacheName = 'v47';
 
 // 2- os resources que serão salvos no cache;
 
@@ -71,7 +71,7 @@ self.addEventListener('fetch', event => {
             });
 
             return networkResponse;
-        }).catch(() => {
+        }).catch(async () => {
             return caches.open(cacheName)
                 .then(cache => cache.match(event.request))
                 .then(cachedResponse => {
