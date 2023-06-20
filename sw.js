@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v44';
+const cacheName = 'v45';
 
 // 2- os resources que serão salvos no cache;
 
@@ -58,9 +58,18 @@ self.addEventListener("install", (event) => {
     );
 });
 
-self.addEventListener("fetch", (event) => {
+self.addEventListener('fetch', event => {
     event.respondWith(
-        caches.match(event.request)
-            .then(cacheResponse => (cacheResponse || fetch(event.request))),
+      fetch(event.request).then(networkResponse => {
+        if (networkResponse.ok) {
+          caches.open(cacheName).then(cache => {
+            cache.put(event.request, networkResponse.clone());
+          });
+        }
+
+        return networkResponse;
+      }).catch(() => {
+        return caches.match(event.request);
+      })
     );
-});
+  });
