@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v45';
+const cacheName = 'v46';
 
 // 2- os resources que serão salvos no cache;
 
@@ -60,16 +60,26 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener('fetch', event => {
     event.respondWith(
-      fetch(event.request).then(networkResponse => {
-        if (networkResponse.ok) {
-          caches.open(cacheName).then(cache => {
-            cache.put(event.request, networkResponse.clone());
-          });
-        }
+        fetch(event.request).then(networkResponse => {
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                return networkResponse;
+            }
+            const responseToCache = networkResponse.clone();
 
-        return networkResponse;
-      }).catch(() => {
-        return caches.match(event.request);
-      })
+            caches.open(cacheName).then(cache => {
+                cache.put(event.request, responseToCache);
+            });
+
+            return networkResponse;
+        }).catch(() => {
+            return caches.open(cacheName)
+                .then(cache => cache.match(event.request))
+                .then(cachedResponse => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    throw new Error('No cache entry available');
+                });
+        })
     );
-  });
+});
