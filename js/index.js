@@ -239,7 +239,7 @@ async function exportList(e) {
 
     const dataCopy = JSON.stringify(objectListExport);
 
-    await navigator.clipboard.writeText(newInsert);
+    await navigator.clipboard.writeText(dataCopy);
 
     menuOpenClose();
 
