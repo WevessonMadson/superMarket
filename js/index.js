@@ -6,8 +6,12 @@ const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
-const btnAddList = document.querySelector("#actionNew");
-const btnDeleteList = document.querySelector("#actionDelete");
+const btnMenu = document.querySelector("#menuIcon");
+const btnAddList = document.querySelector("#addList");
+const btnDeleteList = document.querySelector("#deleteList");
+const btnExportList = document.querySelector("#exportList");
+const btnImportList = document.querySelector("#importList");
+const btnEditList = document.querySelector("#editList");
 
 function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
@@ -136,6 +140,20 @@ function deleteInsertAll(e) {
     }
 }
 
+function menuOpenClose(e) {
+    if (e) e.preventDefault();
+
+    const showMenu = btnMenu.textContent.trim() === "menu" ? false : true;
+
+    if (showMenu) {
+        btnMenu.textContent = "menu";
+        document.getElementById("optionsMenu").style.display = "none";
+    } else {
+        btnMenu.textContent = "close";
+        document.getElementById("optionsMenu").style.display = "block";
+    }
+}
+
 function selectListName(e) {
     if (e) e.preventDefault();
     const listOfList = JSON.parse(localStorage.getItem("listOfList"));
@@ -154,18 +172,18 @@ function selectListName(e) {
 
 function updateOptions() {
     const listOfList = JSON.parse(localStorage.getItem("listOfList"));
-    
-    if(listOfList) {
+
+    if (listOfList) {
         let options = "";
         const selected = listOfList.filter(lista => lista.selected === true);
         const unSelected = listOfList.filter(lista => lista.selected === false);
         const listFinal = selected.concat(unSelected);
-    
-        for (let i = 0; i < listFinal.length; i ++) {
+
+        for (let i = 0; i < listFinal.length; i++) {
             options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
         }
         listName.innerHTML = options;
-        if(listOfList[0] === undefined){
+        if (listOfList[0] === undefined) {
             localStorage.setItem("listOfList", '[{"nome": "superMarket", "selected": true}]');
             listName.innerHTML = `<option value="superMarket">superMarket</option>`
         }
@@ -176,6 +194,8 @@ function updateOptions() {
 }
 
 function addList(e) {
+    menuOpenClose();
+
     const nameNewList = prompt("Como você quer chamar essa nova lista?");
 
     if (nameNewList === "" || nameNewList === undefined || nameNewList === null) return;
@@ -186,7 +206,7 @@ function addList(e) {
         lista.selected = false;
         return lista;
     });
-    newListOfList.push({nome: nameNewList, selected: true});
+    newListOfList.push({ nome: nameNewList, selected: true });
     localStorage.setItem("listOfList", JSON.stringify(newListOfList));
     getData();
     atualizaTotais();
@@ -194,6 +214,9 @@ function addList(e) {
 
 function deleteList(e) {
     if (e) e.preventDefault();
+
+    menuOpenClose();
+
     if (confirm(`Confirma a exclusão da lista: "${listName.value}" ?`)) {
         const listOfList = JSON.parse(localStorage.getItem("listOfList"));
         const newListOfList = listOfList.filter(lista => lista.nome != listName.value);
@@ -204,10 +227,65 @@ function deleteList(e) {
     }
 }
 
+async function exportList(e) {
+    if (e) e.preventDefault();
+
+    const listProducts = JSON.parse(localStorage.getItem(listName.value));
+
+    const objectListExport = {
+        listName: listName.value,
+        listProducts,
+    }
+
+    const dataCopy = JSON.stringify(objectListExport);
+
+    await navigator.clipboard.writeText(newInsert);
+
+    menuOpenClose();
+
+    alert("Copiado para a Area de Transferência.");
+}
+
+function importList(e) {
+    if (e) e.preventDefault();
+
+    menuOpenClose();
+
+    const jsonListImport = prompt("Cole aqui o json com a lista...");
+    const objectListImport = JSON.parse(jsonListImport);
+
+    let listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
+    if ((objectListImport.listName != "" || !objectListImport.listName)) {
+        if (!listOfList.includes(objectListImport.listName)) {
+
+            const newListOfList = listOfList.map(lista => {
+                lista.selected = false;
+                return lista;
+            });
+            newListOfList.push({ nome: objectListImport.listName, selected: true });
+            localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+            localStorage.setItem(objectListImport.listName, JSON.stringify(objectListImport.listProducts));
+            getData();
+            atualizaTotais();
+        }
+    }
+}
+
+// function editList(e) {
+//     if (e) e.preventDefault();
+
+
+// }
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
+btnMenu.addEventListener("click", menuOpenClose);
 btnAddList.addEventListener("click", addList);
 btnDeleteList.addEventListener("click", deleteList);
+btnExportList.addEventListener("click", exportList);
+btnImportList.addEventListener("click", importList);
+// btnEditList.addEventListener("click", editList);
