@@ -25,7 +25,7 @@
     padding-left: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     position: absolute;
     z-index: 1;
     margin-top: 10px;
@@ -34,9 +34,9 @@
 #actionList ul li {
     display: flex;
     align-items: center;
-    gap: 3px;
     background-color: #05a1f55f;
-    padding: 0px 10px;
+    padding: 3px 50px 3px 10px;
+    font-size: 18px;
 }
 
 #actionList ul li:active {

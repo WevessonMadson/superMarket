@@ -251,7 +251,7 @@ function importList(e) {
 
     menuOpenClose();
 
-    const jsonListImport = prompt("Cole aqui o json com a lista...");
+    const jsonListImport = prompt("Cole aqui a lista...");
     const objectListImport = JSON.parse(jsonListImport);
 
     let listOfList = JSON.parse(localStorage.getItem("listOfList"));
@@ -272,11 +272,36 @@ function importList(e) {
     }
 }
 
-// function editList(e) {
-//     if (e) e.preventDefault();
+function editList(e) {
+    if (e) e.preventDefault();
 
+    menuOpenClose();
 
-// }
+    const newNameForList = prompt("Digite o novo nome para a lista:");
+
+    if (newNameForList === "" || newNameForList === undefined || newNameForList === null) return;
+    console.log("passou")
+
+    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+    const newListOfList = listOfList.map(lista => {
+        if (lista.nome == listName.value) {
+            lista.nome = newNameForList;
+            lista.selected = true;
+        } else {
+            lista.selected = false;
+        }
+        return lista;
+    });
+
+    const listData =  JSON.parse(localStorage.getItem(listName.value));
+    
+    localStorage.setItem(newNameForList, JSON.stringify(listData));
+    localStorage.removeItem(listName.value);
+    localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
+    getData();
+    atualizaTotais();
+}
 
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
@@ -288,4 +313,4 @@ btnAddList.addEventListener("click", addList);
 btnDeleteList.addEventListener("click", deleteList);
 btnExportList.addEventListener("click", exportList);
 btnImportList.addEventListener("click", importList);
-// btnEditList.addEventListener("click", editList);
+btnEditList.addEventListener("click", editList);
