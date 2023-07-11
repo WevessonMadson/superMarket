@@ -238,12 +238,14 @@ async function exportList(e) {
     }
 
     const dataCopy = JSON.stringify(objectListExport);
-
-    await navigator.clipboard.writeText(dataCopy);
+    
+    //await navigator.clipboard.writeText(dataCopy);
 
     menuOpenClose();
 
-    alert("Copiado para a Area de Transferência.");
+    //alert("Copiado para a Area de Transferência.");
+
+    window.open(`https://api.whatsapp.com/send/?text=${dataCopy}`, '_blank');
 }
 
 function importList(e) {
