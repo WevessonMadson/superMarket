@@ -12,6 +12,9 @@ const btnDeleteList = document.querySelector("#deleteList");
 const btnExportList = document.querySelector("#exportList");
 const btnImportList = document.querySelector("#importList");
 const btnEditList = document.querySelector("#editList");
+const btnSettings = document.querySelector("#settings");
+const btnExitSettings = document.querySelector("#exitSettings");
+const btnSaveSettings = document.querySelector("#saveSettings");
 
 function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
@@ -69,6 +72,7 @@ function saveData() {
 
 function getData() {
     updateOptions();
+    getConfig();
     const dataMarket = localStorage.getItem(listName.value);
     tbody.innerHTML = "";
     if (dataMarket) {
@@ -239,11 +243,7 @@ async function exportList(e) {
 
     const dataCopy = JSON.stringify(objectListExport);
     
-    //await navigator.clipboard.writeText(dataCopy);
-
     menuOpenClose();
-
-    //alert("Copiado para a Area de Transferência.");
 
     window.open(`https://api.whatsapp.com/send/?text=${dataCopy}`, '_blank');
 }
@@ -305,6 +305,93 @@ function editList(e) {
     atualizaTotais();
 }
 
+function getConfig() {
+    const config = JSON.parse(localStorage.getItem("configSuperMarket"));
+    
+    if (!config) {
+        const initialConfig = {
+            sumOnlyChecked: false,
+        };
+        
+        localStorage.setItem("configSuperMarket", JSON.stringify(initialConfig));
+
+        return initialConfig;
+    } else {
+        return config;
+    }
+}
+
+function compareSettings() {
+    const config = getConfig();
+    const configInDysplay = {};
+    
+    for (key in config) {
+        configInDysplay[key] = document.querySelector(`#${key}`).checked;
+    }
+
+    return JSON.stringify(configInDysplay) === JSON.stringify(config);
+
+}
+function setSettings(local) {
+    const config = getConfig();
+
+    for (key in config) {
+        if (local === "display") {
+            document.querySelector(`#${key}`).checked = config[key];
+        } else {
+            config[key] = document.querySelector(`#${key}`).checked;
+        }
+    }
+    
+    if (local === "storage") {
+        localStorage.setItem("configSuperMarket", JSON.stringify(config));
+    }
+}
+
+function openCloseSettings(e){
+    if (e) e.preventDefault();
+
+    const currentScreen = document.querySelector("#currentScreen");
+    const app = document.getElementById("app");
+    const listSelected = document.getElementById("listSelected");
+    const globalSettings = document.getElementById("globalSettings");
+
+    const showSettings = currentScreen.style.display === "none" ? false : true;
+
+    if (!showSettings) {
+        app.style.display = "none";
+        listSelected.style.display = "none";
+        currentScreen.style.display = "inline";
+        globalSettings.style.display = "flex";
+        setSettings("display");
+        menuOpenClose();
+    } else {
+        if (compareSettings()){
+            globalSettings.style.display = "none";
+            currentScreen.style.display = "none";
+            app.style.display = "flex";
+            listSelected.style.display = "";
+        } else {
+            if (confirm(`As alterações não foram salvas. Deseja realmente sair?`)) {
+                globalSettings.style.display = "none";
+                currentScreen.style.display = "none";
+                app.style.display = "flex";
+                listSelected.style.display = "";
+            }
+        }
+    }
+}
+
+function saveSettings(e) {
+    if (e) e.preventDefault();
+
+    setSettings("storage");
+
+    alert("Configurações salvas com sucesso!")
+
+    // openCloseSettings();
+}
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
@@ -316,3 +403,6 @@ btnDeleteList.addEventListener("click", deleteList);
 btnExportList.addEventListener("click", exportList);
 btnImportList.addEventListener("click", importList);
 btnEditList.addEventListener("click", editList);
+btnSettings.addEventListener("click", openCloseSettings);
+btnExitSettings.addEventListener("click", openCloseSettings);
+btnSaveSettings.addEventListener("click", saveSettings);
