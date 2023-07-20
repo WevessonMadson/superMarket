@@ -48,6 +48,7 @@ function adicionar(e) {
 function saveData() {
     const check = [];
     const noCheck = [];
+    const config = getConfig();
 
     let totProd = 0;
     for (let i = 0; i < trs.length; i++) {
@@ -56,11 +57,20 @@ function saveData() {
         let qtd = Number(trs[i].getElementsByClassName("inputQtd")[0].value);
         let preco = Number(trs[i].getElementsByClassName("inputPreco")[0].value);
         let total = Number(qtd) * Number(preco);
-        totProd += total;
-        if (checked) {
-            check.push({ checked, descricao, qtd, preco, total });
+        if (config.sumOnlyChecked) {
+            if (checked) {
+                totProd += total;
+                check.push({ checked, descricao, qtd, preco, total });
+            } else {
+                noCheck.push({ checked, descricao, qtd, preco, total });
+            }    
         } else {
-            noCheck.push({ checked, descricao, qtd, preco, total });
+            totProd += total;
+            if (checked) {
+                check.push({ checked, descricao, qtd, preco, total });
+            } else {
+                noCheck.push({ checked, descricao, qtd, preco, total });
+            }
         }
     }
 
@@ -387,7 +397,9 @@ function saveSettings(e) {
 
     setSettings("storage");
 
-    alert("Configurações salvas com sucesso!")
+    atualizaTotais();
+
+    alert("Configurações salvas com sucesso!");
 
     // openCloseSettings();
 }
