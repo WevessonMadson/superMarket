@@ -1,6 +1,7 @@
 const tbody = document.querySelector("#tbody");
 const descricao = document.querySelector("#descricao");
 const quantidade = document.querySelector("#quantidade");
+const precoUnit = document.querySelector("#preco");
 const botaoAdicionar = document.querySelector("#adicionar");
 const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
@@ -30,18 +31,20 @@ function adicionar(e) {
 
     let prodDescr = descricao.value;
     let prodQuant = quantidade.value;
+    let priceUnit = precoUnit.value;
 
-    if (prodDescr === '' || prodQuant === '') {
-        alert("É necessário preencher descrição e quantidade.");
+    if (prodDescr === '' || prodQuant === '' || priceUnit === '') {
+        alert("É necessário preencher a descrição, a quantidade e o preço unitário.");
         return;
     }
 
-    tbody.innerHTML += newLinha(prodDescr, prodQuant);
+    tbody.innerHTML += newLinha(prodDescr, prodQuant, Number(priceUnit));
     saveData();
     getData();
 
     descricao.value = "";
     quantidade.value = "1";
+    precoUnit.value = "0.00";
     descricao.focus();
 }
 
