@@ -1,6 +1,6 @@
 // 1- o nome do cache
 
-const cacheName = 'v47';
+const cacheName = 'v48';
 
 // 2- os resources que serão salvos no cache;
 
