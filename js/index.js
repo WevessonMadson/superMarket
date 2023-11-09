@@ -20,7 +20,7 @@ const btnSaveSettings = document.querySelector("#saveSettings");
 function newLinha(descricao, quantidade, preco = 0, total = 0, checked = false) {
     preco = preco.toFixed(2);
     total = total.toFixed(2);
-    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reorganizar()"></td><td class="descProd">${descricao}</td>
+    return `<tr class="trTableValue"><td><input ${checked ? "checked" : ""} type="checkbox" onchange="reorganizar()"></td><td class="descProd ${checked ? "marcado" : ""}">${descricao}</td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputQtd" value="${quantidade}"></td>
     <td><input type="number" onchange="getData()" onfocus="selectContent()" oninput="atualizaTotais()" class="inputPreco" value="${preco}"></td>
     <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;

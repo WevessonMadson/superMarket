@@ -217,6 +217,10 @@ table {
     font-weight: 400;
 }
 
+.marcado {
+    text-decoration: line-through;
+}
+
 @media screen and (min-height: 710px) {
     #container {
         max-height: 650px;
