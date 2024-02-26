@@ -419,6 +419,10 @@ function goToScreen(proxTela) {
       tela: "Home",
       id: "app",
     },
+    {
+      tela: "Adm. Listas",
+      id: "adm-listas",
+    },
   ];
 
   const acharIdTela = (tela) => {

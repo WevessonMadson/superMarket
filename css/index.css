@@ -192,13 +192,19 @@ table {
   text-decoration: line-through;
 }
 
-#globalSettings {
+#globalSettings,
+#about,
+#adm-listas {
   display: none;
   flex-direction: column;
   align-items: center;
   max-width: 600px;
   gap: 20px;
   margin: auto;
+}
+
+#about {
+  gap: 5px;
 }
 
 #settingsContent {
@@ -215,16 +221,6 @@ table {
   gap: 20px;
   align-items: center;
   max-width: 600px;
-}
-
-#about {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
-  gap: 5px;
-  margin: auto;
 }
 
 .about-text {

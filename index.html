@@ -43,8 +43,9 @@
                 <li id="settings" class="listUl" onclick="goToScreen('Configurações')"><span
                         class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
                 </li>
-                <li id="admList" class="listUl"><span class="material-symbols-outlined">list_alt</span><span
-                        class="descr-list">Adm. Listas</span></li>
+                <li id="admList" class="listUl" onclick="goToScreen('Adm. Listas')"><span
+                        class="material-symbols-outlined">list_alt</span><span class="descr-list">Adm. Listas</span>
+                </li>
                 <li id="aboutMenu" class="listUl" onclick="goToScreen('Sobre')"><span
                         class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>
             </ul>
@@ -98,6 +99,17 @@
         <div id="actionsSettings">
             <button id="saveSettings" class="btnAction btnActionSave">Salvar</button>
             <button id="exitSettings" class="btnAction" onclick="goToScreen('Home')">Sair</button>
+        </div>
+    </div>
+    <div id="adm-listas">
+        <div id="listasContent">
+            <p class="about-text">Olá, estamos em constantes melhorias.</p>
+            <p class="about-text">Em breve você poderá administrar suas listas de forma prática.</p>
+            <p class="about-text">Será possível fazer exclusão de várias listas de uma única vez.</p>
+            <p class="about-text">Aguarde! ;D</p>
+        </div>
+        <div id="actionsListas">
+            <button id="exitListas" class="btnAction" onclick="goToScreen('Home')">Sair</button>
         </div>
     </div>
     <div id="about">
