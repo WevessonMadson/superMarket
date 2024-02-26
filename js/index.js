@@ -377,16 +377,6 @@ function getConfig() {
   }
 }
 
-function compareSettings() {
-  const config = getConfig();
-  const configInDysplay = {};
-
-  for (key in config) {
-    configInDysplay[key] = document.querySelector(`#${key}`).checked;
-  }
-
-  return JSON.stringify(configInDysplay) === JSON.stringify(config);
-}
 function setSettings(local) {
   const config = getConfig();
 
@@ -403,40 +393,6 @@ function setSettings(local) {
   }
 }
 
-function openCloseSettings(e) {
-  if (e) e.preventDefault();
-
-  const currentScreen = document.querySelector("#currentScreen");
-  const app = document.getElementById("app");
-  const listSelected = document.getElementById("listSelected");
-  const globalSettings = document.getElementById("globalSettings");
-
-  const showSettings = currentScreen.style.display === "none" ? false : true;
-
-  if (!showSettings) {
-    app.style.display = "none";
-    listSelected.style.display = "none";
-    currentScreen.style.display = "inline";
-    globalSettings.style.display = "flex";
-    setSettings("display");
-    menuOpenClose();
-  } else {
-    if (compareSettings()) {
-      globalSettings.style.display = "none";
-      currentScreen.style.display = "none";
-      app.style.display = "flex";
-      listSelected.style.display = "";
-    } else {
-      if (confirm(`As alterações não foram salvas. Deseja realmente sair?`)) {
-        globalSettings.style.display = "none";
-        currentScreen.style.display = "none";
-        app.style.display = "flex";
-        listSelected.style.display = "";
-      }
-    }
-  }
-}
-
 function saveSettings(e) {
   if (e) e.preventDefault();
 
@@ -445,6 +401,82 @@ function saveSettings(e) {
   atualizaTotais();
 
   alert("Configurações salvas com sucesso!");
+}
+
+function goToScreen(proxTela) {
+  const listSelected = document.getElementById("listSelected");
+
+  const telas = [
+    {
+      tela: "Configurações",
+      id: "globalSettings",
+    },
+    {
+      tela: "Sobre",
+      id: "about",
+    },
+    {
+      tela: "Home",
+      id: "app",
+    },
+  ];
+
+  const acharIdTela = (tela) => {
+    return telas.filter((registro) => registro.tela == tela)[0];
+  };
+
+  function compareSettings() {
+    const config = getConfig();
+    const configInDysplay = {};
+
+    for (key in config) {
+      configInDysplay[key] = document.querySelector(`#${key}`).checked;
+    }
+
+    return JSON.stringify(configInDysplay) === JSON.stringify(config);
+  }
+
+  let telaAtual = document.querySelector("#currentScreen");
+
+  if (telaAtual.innerText.trim() == proxTela.trim()) {
+    if (proxTela.trim() != "Home") {
+      btnMenu.textContent = "menu";
+      document.getElementById("optionsMenu").style.display = "none";
+    }
+    return;
+  }
+
+  if (telaAtual.innerText.trim() == "Configurações") {
+    if (!compareSettings()) {
+      if (!confirm(`As alterações não foram salvas. Deseja realmente sair?`)) {
+        return;
+      }
+    }
+  }
+
+  if (proxTela == "Configurações") setSettings("display");
+
+  let idTelaAtual = acharIdTela(telaAtual.innerText.trim()).id;
+  let idProxTela = acharIdTela(proxTela).id;
+
+  if (proxTela.trim() != "Home") {
+    btnMenu.textContent = "menu";
+    document.getElementById("optionsMenu").style.display = "none";
+  } else {
+    document.getElementById(idProxTela).style.display = "flex";
+    telaAtual.innerText = "Home";
+    telaAtual.style.display = "none";
+    document.getElementById(idTelaAtual).style.display = "none";
+    listSelected.style.display = "";
+    return;
+  }
+
+  listSelected.style.display = "none";
+  document.getElementById(`${idTelaAtual}`).style.display = "none";
+  document.getElementById(`${idProxTela}`).style.display = "flex";
+
+  telaAtual.innerText = proxTela;
+  telaAtual.style.display = "inline";
 }
 
 window.addEventListener("DOMContentLoaded", getData);
@@ -458,6 +490,4 @@ btnDeleteList.addEventListener("click", deleteList);
 btnExportList.addEventListener("click", exportList);
 btnImportList.addEventListener("click", importList);
 btnEditList.addEventListener("click", editList);
-btnSettings.addEventListener("click", openCloseSettings);
-btnExitSettings.addEventListener("click", openCloseSettings);
 btnSaveSettings.addEventListener("click", saveSettings);
