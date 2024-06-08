@@ -17,12 +17,31 @@ function setSettings(local) {
   }
 
 function saveSettings(e) {
-    if (e) e.preventDefault();
+  if (e) e.preventDefault();
+
+  setSettings("storage");
+
+  let totProd = 0;
+
+  const config = getConfig();
+
+  const nomeListaAtual = JSON.parse(localStorage.getItem("listOfList")).filter(lista => lista.selected)[0].nome;
+
+  JSON.parse(localStorage.getItem(nomeListaAtual)).forEach(produto => {
+    if (config.sumOnlyChecked) {
+      if (produto.checked) {
+        totProd += produto.total;
+      }
+    } else {
+      totProd += produto.total;
+    }
+  });
+
+  localStorage.setItem("total", totProd);
   
-    setSettings("storage");
-  
-    alert("Configurações salvas com sucesso!");
-  }
+  alert("Configurações salvas com sucesso!"); 
+}
+
 
 window.addEventListener("DOMContentLoaded", setSettings("display"));
   
