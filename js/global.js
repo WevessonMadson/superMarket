@@ -1,5 +1,60 @@
 const btnMenu = document.querySelector("#menuIcon");
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+      navigator.serviceWorker.register('https://wevessonmadson.github.io/superMarket/sw.js')
+          .then(reg => console.log("registrado: ", reg))
+          .catch(error => console.log("Ocorreu erro no registro: ", error))
+  });
+}
+
+// const globalData = JSON.parse(localStorage.getItem("superMarket")) || {
+//   listas: [
+//     { 
+//       name: "superMarket", 
+//       selected: true,
+//       items: [
+//         { 
+//           checked: false,
+//           descricao: "Macarrão",
+//           qtd:1,
+//           preco:4,
+//           total:4
+//         },
+//         { 
+//           checked: false,
+//           descricao: "Macarrão",
+//           qtd:1,
+//           preco:4,
+//           total:4
+//         },
+//       ],
+//       total: 8,
+//     },
+//   ],
+//   config: {
+//     sumOnlyChecked: false
+//   }
+// };
+
+function renderMenu() {
+  let htmlMenuList = `<li id="admList" class="listUl" onclick="goToScreen('Home')"><span
+                        class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
+                </li>
+                <li id="admList" class="listUl" onclick="goToScreen('Adm. Listas')"><span
+                        class="material-symbols-outlined">list_alt</span><span class="descr-list">Adm. Listas</span>
+                </li>
+                <li id="settings" class="listUl" onclick="goToScreen('Configurações')"><span
+                        class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
+                </li>
+                <li id="aboutMenu" class="listUl" onclick="goToScreen('Sobre')"><span
+                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>`;
+
+  const menuList = document.getElementById("menu-list");
+
+  menuList.innerHTML = htmlMenuList;
+}
+
 function menuOpenClose(e) {
   if (e) e.preventDefault();
 
@@ -9,36 +64,46 @@ function menuOpenClose(e) {
     btnMenu.textContent = "menu";
     document.getElementById("optionsMenu").style.display = "none";
   } else {
+    renderMenu();
     btnMenu.textContent = "close";
     document.getElementById("optionsMenu").style.display = "block";
   }
 }
 
-function goToScreen(proxTela) {
-  const listSelected = document.getElementById("listSelected");
+function voltar(e) {
+  if (e) e.preventDefault();
 
-  const telas = [
-    {
-      tela: "Configurações",
-      id: "settings",
-    },
-    {
-      tela: "Sobre",
-      id: "about",
-    },
-    {
-      tela: "Home",
-      id: "app",
-    },
-    {
-      tela: "Adm. Listas",
-      id: "lists",
-    },
-  ];
+  window.history.back();
+}
 
-  const acharIdTela = (tela) => {
-    return telas.filter((registro) => registro.tela == tela)[0];
-  };
+function getConfig() {
+  const config = JSON.parse(localStorage.getItem("configSuperMarket"));
+
+  if (!config) {
+    const initialConfig = {
+      sumOnlyChecked: false,
+    };
+
+    localStorage.setItem("configSuperMarket", JSON.stringify(initialConfig));
+
+    return initialConfig;
+  } else {
+    return config;
+  }
+}
+
+
+function goToScreen(nextPage) {
+  let paginaAtual = document.querySelector("#currentScreen").innerText.trim();
+
+  let paginaAtualEProximaPagina = paginaAtual == nextPage.trim();
+
+  if (paginaAtualEProximaPagina) {
+    menuOpenClose();
+    return;
+  }
+  
+  let paginaAtualEConfiguracao = paginaAtual == "Configurações";
 
   function compareSettings() {
     const config = getConfig();
@@ -51,17 +116,7 @@ function goToScreen(proxTela) {
     return JSON.stringify(configInDysplay) === JSON.stringify(config);
   }
 
-  let telaAtual = document.querySelector("#currentScreen");
-
-  if (telaAtual.innerText.trim() == proxTela.trim()) {
-    if (proxTela.trim() != "Home") {
-      btnMenu.textContent = "menu";
-      document.getElementById("optionsMenu").style.display = "none";
-    }
-    return;
-  }
-
-  if (telaAtual.innerText.trim() == "Configurações") {
+  if (paginaAtualEConfiguracao) {
     if (!compareSettings()) {
       if (!confirm(`As alterações não foram salvas. Deseja realmente sair?`)) {
         return;
@@ -69,26 +124,28 @@ function goToScreen(proxTela) {
     }
   }
 
-  if (proxTela == "Configurações") setSettings("display");
+  const pages = [
+    {
+      pageDescription: "Configurações",
+      pageFileName: "settings",
+    },
+    {
+      pageDescription: "Sobre",
+      pageFileName: "about",
+    },
+    {
+      pageDescription: "Home",
+      pageFileName: "index",
+    },
+    {
+      pageDescription: "Adm. Listas",
+      pageFileName: "lists",
+    },
+  ];
+  
+  let fileNamePage = pages.filter((page) => page.pageDescription == nextPage)[0].pageFileName;
 
-  let idTelaAtual = acharIdTela(telaAtual.innerText.trim()).id;
-  let idProxTela = acharIdTela(proxTela).id;
-
-  if (proxTela.trim() != "Home") {
-    btnMenu.textContent = "menu";
-    document.getElementById("optionsMenu").style.display = "none";
-  } else {
-    document.getElementById(idProxTela).style.display = "flex";
-    telaAtual.innerText = "Home";
-    telaAtual.style.display = "none";
-    document.getElementById(idTelaAtual).style.display = "none";
-    listSelected.style.display = "";
-    return;
-  }
-
-  //listSelected.style.display = "none";
-
-  let url = `./${idProxTela}.html`
+  let url = `./${fileNamePage}.html`
 
   window.location.href = url
 }

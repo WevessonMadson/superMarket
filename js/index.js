@@ -7,14 +7,11 @@ const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
-const btnAddList = document.querySelector("#addList");
-const btnDeleteList = document.querySelector("#deleteList");
-const btnExportList = document.querySelector("#exportList");
-const btnImportList = document.querySelector("#importList");
-const btnEditList = document.querySelector("#editList");
-const btnSettings = document.querySelector("#settings");
-const btnExitSettings = document.querySelector("#exitSettings");
-const btnSaveSettings = document.querySelector("#saveSettings");
+// const btnAddList = document.querySelector("#addList");
+// const btnDeleteList = document.querySelector("#deleteList");
+// const btnExportList = document.querySelector("#exportList");
+// const btnImportList = document.querySelector("#importList");
+// const btnEditList = document.querySelector("#editList");
 
 function newLinha(
   descricao,
@@ -65,6 +62,7 @@ function saveData() {
   const config = getConfig();
 
   let totProd = 0;
+
   for (let i = 0; i < trs.length; i++) {
     let checked = trs[i].childNodes[0].childNodes[0].checked;
     let descricao = trs[i].getElementsByClassName("descProd")[0].innerText;
@@ -74,17 +72,15 @@ function saveData() {
     if (config.sumOnlyChecked) {
       if (checked) {
         totProd += total;
-        check.push({ checked, descricao, qtd, preco, total });
-      } else {
-        noCheck.push({ checked, descricao, qtd, preco, total });
       }
     } else {
       totProd += total;
-      if (checked) {
-        check.push({ checked, descricao, qtd, preco, total });
-      } else {
-        noCheck.push({ checked, descricao, qtd, preco, total });
-      }
+    }
+
+    if (checked) {
+      check.push({ checked, descricao, qtd, preco, total });
+    } else {
+      noCheck.push({ checked, descricao, qtd, preco, total });
     }
   }
 
@@ -348,56 +344,13 @@ function editList(e) {
   atualizaTotais();
 }
 
-function getConfig() {
-  const config = JSON.parse(localStorage.getItem("configSuperMarket"));
-
-  if (!config) {
-    const initialConfig = {
-      sumOnlyChecked: false,
-    };
-
-    localStorage.setItem("configSuperMarket", JSON.stringify(initialConfig));
-
-    return initialConfig;
-  } else {
-    return config;
-  }
-}
-
-function setSettings(local) {
-  const config = getConfig();
-
-  for (key in config) {
-    if (local === "display") {
-      document.querySelector(`#${key}`).checked = config[key];
-    } else {
-      config[key] = document.querySelector(`#${key}`).checked;
-    }
-  }
-
-  if (local === "storage") {
-    localStorage.setItem("configSuperMarket", JSON.stringify(config));
-  }
-}
-
-function saveSettings(e) {
-  if (e) e.preventDefault();
-
-  setSettings("storage");
-
-  atualizaTotais();
-
-  alert("Configurações salvas com sucesso!");
-}
-
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
-btnAddList.addEventListener("click", addList);
-btnDeleteList.addEventListener("click", deleteList);
-btnExportList.addEventListener("click", exportList);
-btnImportList.addEventListener("click", importList);
-btnEditList.addEventListener("click", editList);
-btnSaveSettings.addEventListener("click", saveSettings);
+// btnAddList.addEventListener("click", addList);
+// btnDeleteList.addEventListener("click", deleteList);
+// btnExportList.addEventListener("click", exportList);
+// btnImportList.addEventListener("click", importList);
+// btnEditList.addEventListener("click", editList);

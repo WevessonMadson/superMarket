@@ -27,35 +27,24 @@
     <div id="optionsMenu">
         <div class="fade" onclick="menuOpenClose()"></div>
         <div id="actionList">
-            <ul>
-                <li id="importList" class="listUl"><span class="material-symbols-outlined">ios_share</span><span
-                        class="descr-list">Importar</span></li>
-                <li id="settings" class="listUl"><span
-                        class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
-                </li>
-                <li id="admList" class="listUl"><span
-                        class="material-symbols-outlined">list_alt</span><span class="descr-list">Adm. Listas</span>
-                </li>
-                <li id="aboutMenu" class="listUl"><span
-                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>
-            </ul>
+            <ul id="menu-list"></ul>
         </div>
     </div>
     <div id="about">
         <div id="aboutContent">
-            <p class="about-text">Olá, eu sou o superMarket!</p>
-            <p class="about-text">Fui desenvolvido por Wevesson Madson, para ser um aplicativo de criação de listas
+            <p class="info-texts">Olá, eu sou o superMarket!</p>
+            <p class="info-texts">Fui desenvolvido por Wevesson Madson, para ser um aplicativo de criação de listas
                 de compras fácil e
                 prático.</p>
-            <p class="about-text">Ao usar minhas ferramentas, será possível fazer a criação e administração de
+            <p class="info-texts">Ao usar minhas ferramentas, será possível fazer a criação e administração de
                 listas de compras, que você poderá exportar/importar também.</p>
-            <p class="about-text">Depois da criação da lista e adição dos produtos, a minha
+            <p class="info-texts">Depois da criação da lista e adição dos produtos, a minha
                 função mais
                 importante é
                 registrar os produtos que você vai colocando no carrinho, e com base nas quantidades e valor
                 unitário,
                 vou mostrando em tempo real o valor das suas compras.</p>
-            <p class="about-text">Então me use e não seja surpreendido na hora de passar suas compras no caixa.</p>
+            <p class="info-texts">Então me use e não seja surpreendido na hora de passar suas compras no caixa.</p>
         </div>
         <div id="redes">
             <a href="https://www.linkedin.com/in/wevesson-madson-9a5a4615a/" target="_blank"><img
@@ -64,18 +53,9 @@
         </div>
         <p id="copy">&copy;WevessonMadson</p>
         <div id="actionsAbout">
-            <button id="exitAbout" class="btnAction">Voltar</button>
+            <button id="exitAbout" class="btnAction" onclick="voltar()">Voltar</button>
         </div>
     </div>
-    <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register('https://wevessonmadson.github.io/superMarket/sw.js')
-                    .then(reg => console.log("registrado: ", reg))
-                    .catch(error => console.log("Ocorreu erro no registro: ", error))
-            });
-        }
-    </script>
     <script src="./js/global.js"></script>
     <script src="./js/about.js"></script>
 </body>
