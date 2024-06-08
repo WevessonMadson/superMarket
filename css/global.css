@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700;800;1000&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto Flex", sans-serif;
+}
+
+#header {
+  background-color: #05a2f5;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px;
+}
+
+#currentScreen {
+  font-weight: bold;
+}
+
+#optionsMenu {
+  display: none;
+}
+
+#actionList ul {
+  list-style: none;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+#actionList ul li {
+  display: flex;
+  align-items: center;
+  background-color: #05a1f55f;
+  padding: 3px 50px 3px 10px;
+  font-size: 18px;
+}
+
+#actionList ul li:active {
+  background-color: #05a9f5c3;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btnAction {
+  width: fit-content;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+.fade {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #000;
+  opacity: 0.96;
+  z-index: 1;
+}
+
+.descr-list {
+  margin-left: 5px;
+}

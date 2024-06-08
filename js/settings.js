@@ -7,6 +7,7 @@ const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
+const btnMenu = document.querySelector("#menuIcon");
 const btnAddList = document.querySelector("#addList");
 const btnDeleteList = document.querySelector("#deleteList");
 const btnExportList = document.querySelector("#exportList");
@@ -184,6 +185,20 @@ function deleteInsertAll(e) {
   }
 }
 
+function menuOpenClose(e) {
+  if (e) e.preventDefault();
+
+  const showMenu = btnMenu.textContent.trim() === "menu" ? false : true;
+
+  if (showMenu) {
+    btnMenu.textContent = "menu";
+    document.getElementById("optionsMenu").style.display = "none";
+  } else {
+    btnMenu.textContent = "close";
+    document.getElementById("optionsMenu").style.display = "block";
+  }
+}
+
 function selectListName(e) {
   if (e) e.preventDefault();
   const listOfList = JSON.parse(localStorage.getItem("listOfList"));
@@ -231,8 +246,6 @@ function updateOptions() {
 
 function addList(e) {
   menuOpenClose();
-
-  console.log("addList")
 
   const nameNewList = prompt("Como você quer chamar essa nova lista?");
 
@@ -475,6 +488,7 @@ botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
+btnMenu.addEventListener("click", menuOpenClose);
 btnAddList.addEventListener("click", addList);
 btnDeleteList.addEventListener("click", deleteList);
 btnExportList.addEventListener("click", exportList);
