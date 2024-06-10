@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="apple-touch-icon" href="./assets/ios/512.png" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="canonical" href="https://wevessonmadson.github.io/superMarket/" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/share.css">
+    <title>SuperMarket</title>
+</head>
+
+<body>
+    <header id="header">
+        <div>
+            <span id="menuIcon" class="material-symbols-outlined">menu</span>
+        </div>
+        <div id="currentScreen">Compartilhe</div>
+        <div></div>
+    </header>
+    <div id="optionsMenu">
+        <div class="fade" onclick="menuOpenClose()"></div>
+        <div id="actionList">
+            <ul id="menu-list"></ul>
+        </div>
+    </div>
+    <div id="share">
+        <img src="./assets/qr-code.svg" alt="QR-Code que vai para o app.">
+        <div class="icon-share"  id="share-button">
+            <span class="material-symbols-outlined">share</span>
+            <p>Share</p>
+        </div>
+        <div class="icon-share" id="copy-button">
+            <span  class="material-symbols-outlined">content_copy</span>
+            <p>Copy</p>
+        </div>
+    </div>
+    <script src="./js/global.js"></script>
+    <script src="./js/share.js"></script>
+</body>
+
+</html>

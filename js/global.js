@@ -48,7 +48,9 @@ function renderMenu() {
                         class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
                 </li>
                 <li id="aboutMenu" class="listUl" onclick="goToScreen('Sobre')"><span
-                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>`;
+                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>
+                <li id="shareMenu" class="listUl" onclick="goToScreen('Compartilhe')"><span
+                        class="material-symbols-outlined">share</span><span class="descr-list">Compartilhar App</span></li>`;
 
   const menuList = document.getElementById("menu-list");
 
@@ -140,6 +142,10 @@ function goToScreen(nextPage) {
     {
       pageDescription: "Adm. Listas",
       pageFileName: "lists",
+    },
+    {
+      pageDescription: "Compartilhe",
+      pageFileName: "share",
     },
   ];
   

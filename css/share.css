@@ -1,0 +1,16 @@
+#share {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 52px;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.icon-share span {
+    font-size: 35px;
+}
+
+.icon-share p {
+    font-size: 15px;
+}
