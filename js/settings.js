@@ -21,24 +21,6 @@ function saveSettings(e) {
 
   setSettings("storage");
 
-  let totProd = 0;
-
-  const config = getConfig();
-
-  const nomeListaAtual = JSON.parse(localStorage.getItem("listOfList")).filter(lista => lista.selected)[0].nome;
-
-  JSON.parse(localStorage.getItem(nomeListaAtual)).forEach(produto => {
-    if (config.sumOnlyChecked) {
-      if (produto.checked) {
-        totProd += produto.total;
-      }
-    } else {
-      totProd += produto.total;
-    }
-  });
-
-  localStorage.setItem("total", totProd);
-  
   alert("Configurações salvas com sucesso!"); 
 }
 
