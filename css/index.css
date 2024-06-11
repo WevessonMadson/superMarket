@@ -124,7 +124,7 @@ table {
 
 #sub-menu {  
   top: 45px;
-  left: 170px;
+  right: 5px;
   background-color: #fff;
   max-width: 250px;
   list-style: none;
