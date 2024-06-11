@@ -7,11 +7,7 @@ const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
 const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
-// const btnAddList = document.querySelector("#addList");
-// const btnDeleteList = document.querySelector("#deleteList");
-// const btnExportList = document.querySelector("#exportList");
-// const btnImportList = document.querySelector("#importList");
-// const btnEditList = document.querySelector("#editList");
+const btnAcoesListas = document.querySelector("#action-option-list");
 
 function newLinha(
   descricao,
@@ -226,10 +222,6 @@ function updateOptions() {
 }
 
 function addList(e) {
-  menuOpenClose();
-
-  console.log("addList")
-
   const nameNewList = prompt("Como você quer chamar essa nova lista?");
 
   if (nameNewList === "" || nameNewList === undefined || nameNewList === null)
@@ -250,8 +242,6 @@ function addList(e) {
 function deleteList(e) {
   if (e) e.preventDefault();
 
-  menuOpenClose();
-
   if (confirm(`Confirma a exclusão da lista: "${listName.value}" ?`)) {
     const listOfList = JSON.parse(localStorage.getItem("listOfList"));
     const newListOfList = listOfList.filter(
@@ -264,7 +254,7 @@ function deleteList(e) {
   }
 }
 
-async function exportList(e) {
+function exportList(e) {
   if (e) e.preventDefault();
 
   const listProducts = JSON.parse(localStorage.getItem(listName.value));
@@ -276,15 +266,11 @@ async function exportList(e) {
 
   const dataCopy = JSON.stringify(objectListExport);
 
-  menuOpenClose();
-
   window.open(`https://api.whatsapp.com/send/?text=${dataCopy}`, "_blank");
 }
 
 function importList(e) {
   if (e) e.preventDefault();
-
-  menuOpenClose();
 
   const jsonListImport = prompt("Cole aqui a lista...");
   const objectListImport = JSON.parse(jsonListImport);
@@ -311,8 +297,6 @@ function importList(e) {
 
 function editList(e) {
   if (e) e.preventDefault();
-
-  menuOpenClose();
 
   const newNameForList = prompt("Digite o novo nome para a lista:");
 
@@ -344,13 +328,50 @@ function editList(e) {
   atualizaTotais();
 }
 
+function renderAcoesListas(e) {
+  if (e) e.preventDefault();
+
+  function closeSubMenu(e) {
+    if (e) e.preventDefault();
+  
+    const fade = document.querySelector(".fade.sub-menu");
+  
+    if (fade) {
+      fade.remove();
+    }
+  }
+  
+  const header = document.querySelector("#header");
+  
+  const fade =  document.createElement("div");
+  fade.className = "fade sub-menu";
+
+  document.body.insertBefore(fade, header);
+
+  const subMenu = document.createElement("ul");
+
+  subMenu.id = "sub-menu";
+
+  subMenu.innerHTML = `
+    <li id="addList" class="li-sub-menu" onclick="addList()"><span class="material-symbols-outlined">add</span><span class="descr-list">Nova Lista</span></li>
+
+    <li id="exportList" class="li-sub-menu" onclick="exportList()"><span class="material-symbols-outlined">share</span><span class="descr-list">Exportar Lista</span></li>
+    
+    <li id="importList" class="li-sub-menu" onclick="importList()"><span class="material-symbols-outlined">ios_share</span><span class="descr-list">Importar Lista</span></li>
+    
+    <li id="editList" class="li-sub-menu" onclick="editList()"><span class="material-symbols-outlined">edit</span><span class="descr-list">Editar Nome</span></li>
+    
+    <li id="deleteList" class="li-sub-menu" onclick="deleteList()"><span class="material-symbols-outlined">delete</span><span class="descr-list">Deletar Lista</span></li>
+    `;
+
+  fade.appendChild(subMenu)
+
+  fade.addEventListener("click", closeSubMenu);
+}
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
-// btnAddList.addEventListener("click", addList);
-// btnDeleteList.addEventListener("click", deleteList);
-// btnExportList.addEventListener("click", exportList);
-// btnImportList.addEventListener("click", importList);
-// btnEditList.addEventListener("click", editList);
+btnAcoesListas.addEventListener("click", renderAcoesListas);

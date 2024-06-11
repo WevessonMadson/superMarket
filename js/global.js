@@ -38,18 +38,18 @@ if ("serviceWorker" in navigator) {
 // };
 
 function renderMenu() {
-  let htmlMenuList = `<li id="admList" class="listUl" onclick="goToScreen('Home')"><span
+  let htmlMenuList = `<li id="admList" class="li-menu-item" onclick="goToScreen('Home')"><span
                         class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
                 </li>
-                <li id="admList" class="listUl" onclick="goToScreen('Adm. Listas')"><span
+                <li id="admList" class="li-menu-item" onclick="goToScreen('Adm. Listas')"><span
                         class="material-symbols-outlined">list_alt</span><span class="descr-list">Adm. Listas</span>
                 </li>
-                <li id="settings" class="listUl" onclick="goToScreen('Configurações')"><span
+                <li id="settings" class="li-menu-item" onclick="goToScreen('Configurações')"><span
                         class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
                 </li>
-                <li id="shareMenu" class="listUl" onclick="goToScreen('Compartilhe')"><span
+                <li id="shareMenu" class="li-menu-item" onclick="goToScreen('Compartilhe')"><span
                         class="material-symbols-outlined">share</span><span class="descr-list">Compartilhar App</span></li>
-                <li id="aboutMenu" class="listUl" onclick="goToScreen('Sobre')"><span
+                <li id="aboutMenu" class="li-menu-item" onclick="goToScreen('Sobre')"><span
                         class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>`;
 
   const menuList = document.getElementById("menu-list");
@@ -93,7 +93,6 @@ function getConfig() {
     return config;
   }
 }
-
 
 function goToScreen(nextPage) {
   let paginaAtual = document.querySelector("#currentScreen").innerText.trim();
