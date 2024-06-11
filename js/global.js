@@ -75,9 +75,7 @@ function menuOpenClose(e) {
 function voltar(e) {
   if (e) e.preventDefault();
 
-  let page_back = localStorage.getItem("page_back") || "Home";
-
-  goToScreen(page_back);
+  window.history.back();
 }
 
 function getConfig() {
@@ -97,14 +95,13 @@ function getConfig() {
 }
 
 function goToScreen(nextPage) {
+  menuOpenClose();
+  
   let paginaAtual = document.querySelector("#currentScreen").innerText.trim();
-
-  localStorage.setItem("page_back", paginaAtual);
 
   let paginaAtualEProximaPagina = paginaAtual == nextPage.trim();
 
   if (paginaAtualEProximaPagina) {
-    menuOpenClose();
     return;
   }
   
