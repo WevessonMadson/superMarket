@@ -88,10 +88,12 @@ function saveData() {
 
 function getData() {
   updateOptions();
-  getConfig();
+  const config = getConfig();
   const dataMarket = localStorage.getItem(listName.value);
   tbody.innerHTML = "";
   if (dataMarket) {
+    let totProd = 0;
+
     JSON.parse(dataMarket).forEach((produto) => {
       tbody.innerHTML += newLinha(
         produto.descricao,
@@ -100,11 +102,20 @@ function getData() {
         produto.total,
         produto.checked
       );
+
+      if (config.sumOnlyChecked) {
+        if (produto.checked) {
+          totProd += produto.total;
+        }
+      } else {
+        totProd += produto.total;
+      }
+
+      totProdSpan.innerText = totProd.toFixed(2).replace(".", ",");
     });
-  }
-  totProdSpan.innerText = Number(localStorage.getItem("total"))
-    .toFixed(2)
-    .replace(".", ",");
+    
+    localStorage.setItem("total", totProd);
+  }  
 }
 
 function atualizaTotais() {
