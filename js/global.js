@@ -50,7 +50,9 @@ function renderMenu() {
                 <li id="shareMenu" class="li-menu-item" onclick="goToScreen('Compartilhe')"><span
                         class="material-symbols-outlined">share</span><span class="descr-list">Compartilhar App</span></li>
                 <li id="aboutMenu" class="li-menu-item" onclick="goToScreen('Sobre')"><span
-                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>`;
+                        class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>
+                <li id="sugestionMenu" class="li-menu-item" onclick="goToScreen('Sugestao')"><span
+                        class="material-symbols-outlined">prompt_suggestion</span><span class="descr-list">Melhoria / Problema</span></li>`;
 
   const menuList = document.getElementById("menu-list");
 
@@ -146,6 +148,10 @@ function goToScreen(nextPage) {
     {
       pageDescription: "Compartilhe",
       pageFileName: "share",
+    },
+    {
+      pageDescription: "Sugestao",
+      pageFileName: "sugestion",
     },
   ];
   
