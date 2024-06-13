@@ -380,6 +380,17 @@ function renderAcoesListas(e) {
   fade.addEventListener("click", closeSubMenu);
 }
 
+function openCloseFiltro() {
+  let filtro = document.querySelector("#filtro");
+
+  if (filtro.style.display == "") {
+    filtro.style.display = "flex";
+  } else {
+    document.querySelector("#filtro input").value = "";
+    filtro.style.display = "";
+  }
+}
+
 window.addEventListener("DOMContentLoaded", getData);
 botaoAdicionar.addEventListener("click", adicionar);
 tbody.addEventListener("click", deleteProd);
