@@ -55,13 +55,19 @@
         </form>
         <div id="totalCarr">
             <p>Valor total: <span id="totLista">R$ <span id="valTotCar">0,00</span></span></p>
-        </div>
+            </div>
         <div id="container">
             <table>
                 <thead>
                     <tr>
                         <th><span class="material-symbols-outlined">shopping_cart</span></th>
-                        <th>Descrição</th>
+                        <th id="descricao-table">
+                            Descrição<span class="material-symbols-outlined" id="icone-filtro">filter_alt</span>
+                            <div id="filtro">
+                                <input type="text" placeholder="produto..." id="texto-filtro">
+                                <button><span class="material-symbols-outlined">close</span></button>
+                            </div>
+                        </th>
                         <th>Qtd</th>
                         <th>Preço</th>
                         <th>Subtotal</th>

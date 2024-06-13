@@ -76,6 +76,43 @@
   top: 0;
 }
 
+#descricao-table {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  border-spacing: 0px;
+}
+
+#icone-filtro {
+  font-size: 21px;
+}
+
+#filtro {
+  background-color: #fff;
+  position: absolute;
+  left: 25px;
+  max-width: 120px;
+  display: flex;
+  border: 1px solid #000;
+  gap: 3px;
+  border-radius: 3px;
+}
+
+#filtro input {
+  width: 80%;
+  border: none;
+  padding-left: 3px;
+}
+
+#filtro input:focus {
+  outline: none;
+}
+
+#filtro button {
+  border: none;
+  background-color: rgba(255, 0, 0, 0.283);
+}
+
 table {
   border: 1px solid rgba(128, 151, 144, 0.678);
   width: 100%;
