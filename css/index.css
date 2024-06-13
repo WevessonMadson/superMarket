@@ -92,7 +92,7 @@
   position: absolute;
   left: 25px;
   max-width: 120px;
-  display: flex;
+  display: none;
   border: 1px solid #000;
   gap: 3px;
   border-radius: 3px;
