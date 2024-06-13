@@ -86,7 +86,7 @@ function saveData() {
   localStorage.setItem("total", JSON.stringify(totProd));
 }
 
-function getData() {
+function getData(e, textoFiltro) {
   updateOptions();
   const config = getConfig();
   const dataMarket = localStorage.getItem(listName.value);
@@ -95,13 +95,25 @@ function getData() {
     let totProd = 0;
 
     JSON.parse(dataMarket).forEach((produto) => {
-      tbody.innerHTML += newLinha(
-        produto.descricao,
-        produto.qtd,
-        produto.preco,
-        produto.total,
-        produto.checked
-      );
+      if (textoFiltro) {
+        if (produto.descricao.toLowerCase().includes(textoFiltro.trim().toLowerCase())) {
+          tbody.innerHTML += newLinha(
+            produto.descricao,
+            produto.qtd,
+            produto.preco,
+            produto.total,
+            produto.checked
+          );
+        }
+      } else {
+        tbody.innerHTML += newLinha(
+          produto.descricao,
+          produto.qtd,
+          produto.preco,
+          produto.total,
+          produto.checked
+        );
+      }
 
       if (config.sumOnlyChecked) {
         if (produto.checked) {
@@ -383,11 +395,27 @@ function renderAcoesListas(e) {
 function openCloseFiltro() {
   let filtro = document.querySelector("#filtro");
 
+  let textoFiltro = document.querySelector("#texto-filtro");
+
   if (filtro.style.display == "") {
     filtro.style.display = "flex";
+    textoFiltro.focus();
   } else {
-    document.querySelector("#filtro input").value = "";
+    textoFiltro.value = "";
     filtro.style.display = "";
+    getData();
+  }
+}
+
+function realizaFiltroNosProdutos(e) {
+  if (e) e.preventDefault();
+
+  let textoFiltro = document.querySelector("#texto-filtro").value;
+
+  if (textoFiltro.length > 2) {
+    getData(e, textoFiltro);
+  } else {
+    getData();
   }
 }
 
