@@ -8,35 +8,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// const globalData = JSON.parse(localStorage.getItem("superMarket")) || {
-//   listas: [
-//     { 
-//       name: "superMarket", 
-//       selected: true,
-//       items: [
-//         { 
-//           checked: false,
-//           descricao: "Macarrão",
-//           qtd:1,
-//           preco:4,
-//           total:4
-//         },
-//         { 
-//           checked: false,
-//           descricao: "Macarrão",
-//           qtd:1,
-//           preco:4,
-//           total:4
-//         },
-//       ],
-//       total: 8,
-//     },
-//   ],
-//   config: {
-//     sumOnlyChecked: false
-//   }
-// };
-
 function renderMenu() {
   let htmlMenuList = `<li id="admList" class="li-menu-item" onclick="goToScreen('Home')"><span
                         class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
