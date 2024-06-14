@@ -71,6 +71,30 @@ function adicionar(e) {
   document.querySelector("#descricao").focus();
 }
 
+function deleteProd(e) {
+  let elExcluir = e.target;
+
+  if (
+    elExcluir.innerText === "delete" &&
+    elExcluir.parentNode.classList[0] === "action"
+  ) {
+    let elLinha = elExcluir.parentNode.parentNode;
+    let descricao = elLinha.childNodes[1].innerText;
+    if (confirm(`Confirma a exclusão do produto: "${descricao}" ?`)) {
+      elLinha.remove();
+      
+      let dataAtualLista = JSON.parse(localStorage.getItem(listName.value));
+
+      dataAtualLista = dataAtualLista.filter(produto => produto.descricao !== descricao);
+
+      renderTotalList(dataAtualLista);
+      
+      localStorage.setItem(listName.value, JSON.stringify(dataAtualLista));
+    }
+  }
+}
+
+
 // function saveData() {
 //   let dataListaAtual = JSON.parse(localStorage.getItem(listName.value)) || [];
 
@@ -107,23 +131,6 @@ function atualizaTotais() {
 function selectContent() {
   let curElement = document.activeElement;
   curElement.select();
-}
-
-function deleteProd(e) {
-  let elExcluir = e.target;
-
-  if (
-    elExcluir.innerText === "delete" &&
-    elExcluir.parentNode.classList[0] === "action"
-  ) {
-    let elLinha = elExcluir.parentNode.parentNode;
-    let descricao = elLinha.childNodes[1].innerText;
-    if (confirm(`Confirma a exclusão do produto: "${descricao}" ?`)) {
-      elLinha.remove();
-      saveData();
-      getData();
-    }
-  }
 }
 
 function reorganizar() {
@@ -457,4 +464,4 @@ function renderDataOnLoad() {
       listName.innerHTML = `<option value="superMarket">superMarket</option>`;
     }
   }
-}
+};
