@@ -32,11 +32,17 @@ function adicionar(e) {
   let prodQuant = document.querySelector("#quantidade").value;
   let priceUnit = document.querySelector("#preco").value;
 
+  prodDescr = prodDescr.trim();
+  
   if (prodDescr === "") {
     alert(
       "É necessário preencher a descrição."
     );
     return;
+  }
+
+  if (prodQuant.trim() === "") {
+    prodQuant = 1;
   }
 
   function adicionarProdutoNoLocalStorage(nome_produto, quantidade, preco_unitario) {
@@ -62,7 +68,7 @@ function adicionar(e) {
   document.querySelector("#descricao").value = "";
   document.querySelector("#quantidade").value = "1";
   document.querySelector("#preco").value = "0.00";
-  document.querySelector("#preco").focus();
+  document.querySelector("#descricao").focus();
 }
 
 // function saveData() {
@@ -346,7 +352,7 @@ function realizaFiltroNosProdutos(e) {
       renderBodyTable(produtosFiltrados);
     }
   } else if (textoFiltro.length == 0) {
-    getData();
+    renderDataOnLoad();
   }
 }
 
