@@ -154,9 +154,7 @@ function adicionar(e) {
 
   adicionarProdutoNoLocalStorage(prodDescr, prodQuant, priceUnit);
 
-  if (document.querySelector("#filtro").style.display == "flex") {
-    openCloseFiltro();
-  }
+  closeFiltro();
 
   document.querySelector("#descricao").value = "";
   document.querySelector("#quantidade").value = "1";
@@ -263,19 +261,23 @@ function atualizaTotais() {
   renderTotalList(dataMarket);
 }
 
-function openCloseFiltro() {
+function openFiltro(){
   let filtro = document.querySelector("#filtro");
 
   let textoFiltro = document.querySelector("#texto-filtro");
 
-  if (filtro.style.display == "") {
-    filtro.style.display = "flex";
-    textoFiltro.focus();
-  } else {
-    textoFiltro.value = "";
-    filtro.style.display = "";
-    renderDataOnLoad();
-  }
+  filtro.style.display = "flex";
+  textoFiltro.focus();
+}
+
+function closeFiltro() {
+  let filtro = document.querySelector("#filtro");
+
+  let textoFiltro = document.querySelector("#texto-filtro");
+
+  textoFiltro.value = "";
+  filtro.style.display = "";
+  renderDataOnLoad();
 }
 
 function realizaFiltroNosProdutos(e) {
