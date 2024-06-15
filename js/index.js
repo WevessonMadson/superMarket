@@ -101,19 +101,15 @@ function renderDataOnLoad() {
       for (let i = 0; i < listFinal.length; i++) {
         options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
       }
+
       listName.innerHTML = options;
-      if (listOfList[0] === undefined) {
-        localStorage.setItem(
-          "listOfList",
-          '[{"nome": "superMarket", "selected": true}]'
-        );
-        listName.innerHTML = `<option value="superMarket">superMarket</option>`;
-      }
+
     } else {
       localStorage.setItem(
         "listOfList",
         '[{"nome": "superMarket", "selected": true}]'
       );
+
       listName.innerHTML = `<option value="superMarket">superMarket</option>`;
     }
   }
@@ -301,16 +297,22 @@ function realizaFiltroNosProdutos(e) {
 
 function selectListName(e) {
   if (e) e.preventDefault();
+
   const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
   const newListOfList = listOfList.map((lista) => {
     if (lista.nome === listName.value) {
       lista.selected = true;
+
     } else {
       lista.selected = false;
     }
+
     return lista;
   });
+
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
   renderDataOnLoad();
 }
 
@@ -356,35 +358,60 @@ function renderAcoesListas(e) {
 }
 
 function addList(e) {
-  const nameNewList = prompt("Como você quer chamar essa nova lista?");
+  let nameNewList = prompt("Como você quer chamar essa nova lista?");
 
-  if (nameNewList === "" || nameNewList === undefined || nameNewList === null)
-    return;
+  if (!nameNewList) return;
+
+  nameNewList = nameNewList.trim();
+
+  if (nameNewList === "") return;
+
+  let jaExisteNaLista = false;
 
   const listOfList = JSON.parse(localStorage.getItem("listOfList"));
 
+  listOfList.forEach(lista => {
+    if (lista.nome == nameNewList) {
+      jaExisteNaLista = true;
+    }
+  })
+
+  if (jaExisteNaLista) {
+    alert("Já existe uma lista com esse nome, selecione ela.")
+
+    return;
+  }
+
   const newListOfList = listOfList.map((lista) => {
+
     lista.selected = false;
+
     return lista;
   });
-  newListOfList.push({ nome: nameNewList, selected: true });
+
+  newListOfList.unshift({ nome: nameNewList, selected: true });
+
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
   renderDataOnLoad();
-  atualizaTotais();
 }
 
 function deleteList(e) {
   if (e) e.preventDefault();
 
   if (confirm(`Confirma a exclusão da lista: "${listName.value}" ?`)) {
+
     const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
     const newListOfList = listOfList.filter(
       (lista) => lista.nome != listName.value
     );
+
     localStorage.removeItem(listName.value);
+
     localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
     renderDataOnLoad();
-    atualizaTotais();
   }
 }
 
@@ -392,6 +419,12 @@ function exportList(e) {
   if (e) e.preventDefault();
 
   const listProducts = JSON.parse(localStorage.getItem(listName.value));
+
+  if (!listProducts || !listProducts.length) {
+    alert("Não é possível exportar uma lista vazia.");
+
+    return;
+  }
 
   const objectListExport = {
     listName: listName.value,
@@ -406,60 +439,120 @@ function exportList(e) {
 function importList(e) {
   if (e) e.preventDefault();
 
-  const jsonListImport = prompt("Cole aqui a lista...");
-  const objectListImport = JSON.parse(jsonListImport);
+  let listImport = prompt("Cole aqui a lista...");
+
+  if (!listImport) {
+    return;
+  }
+
+  try{
+    listImport = JSON.parse(listImport);
+  } catch {
+    alert("Houve erro na importação, tente copiar e colar aqui novamente.");
+    return;
+  }
 
   let listOfList = JSON.parse(localStorage.getItem("listOfList"));
 
-  if (objectListImport.listName != "" || !objectListImport.listName) {
-    if (!listOfList.includes(objectListImport.listName)) {
-      const newListOfList = listOfList.map((lista) => {
-        lista.selected = false;
-        return lista;
-      });
-      newListOfList.push({ nome: objectListImport.listName, selected: true });
-      localStorage.setItem("listOfList", JSON.stringify(newListOfList));
-      localStorage.setItem(
-        objectListImport.listName,
-        JSON.stringify(objectListImport.listProducts)
-      );
-      renderDataOnLoad();
-      atualizaTotais();
+  if (listImport.listName != "" || !listImport.listName) {
+
+    let jaExisteNaLista = false;
+
+    listOfList.forEach(lista => {
+      if (lista.nome === listImport.listName) {
+
+        jaExisteNaLista = true;
+      }
+    })
+
+    if (jaExisteNaLista) {
+
+      if (!confirm("Já existe uma lista com o mesmo nome.\n\nContinuar irá substituir a lista atual.\n\nDeseja continuar?")) {
+
+        return;
+        
+      }
     }
+
+    listOfList = listOfList.map((lista) => {      
+
+      if (lista.nome == listImport.listName) {
+        lista.selected = true
+
+      } else {
+        lista.selected = false;
+      }
+
+      return lista;
+    });
+
+    if (!jaExisteNaLista) {
+      listOfList.unshift({ nome: listImport.listName, selected: true });
+    } 
+
+    localStorage.setItem("listOfList", JSON.stringify(listOfList));
+ 
+    localStorage.setItem(
+      listImport.listName,
+      JSON.stringify(listImport.listProducts)
+    );
+    
+    renderDataOnLoad();
   }
 }
 
 function editList(e) {
   if (e) e.preventDefault();
 
-  const newNameForList = prompt("Digite o novo nome para a lista:");
+  let newNameForList = prompt(`Digite o novo nome para a lista '${listName.value}':`);
 
-  if (
-    newNameForList === "" ||
-    newNameForList === undefined ||
-    newNameForList === null
-  )
-    return;
+  if (!newNameForList) return;
+
+  newNameForList = newNameForList.trim();
+
+  if (newNameForList === "") return;
+
+  let jaExisteNaLista = false;
 
   const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
+  listOfList.forEach(lista => {
+    if (lista.nome == newNameForList) {
+      jaExisteNaLista = true;
+    }
+  })
+
+  if (jaExisteNaLista) {
+    alert("Já existe uma lista com esse nome, selecione ela.")
+
+    return;
+  }
+
   const newListOfList = listOfList.map((lista) => {
+
     if (lista.nome == listName.value) {
       lista.nome = newNameForList;
       lista.selected = true;
+
     } else {
       lista.selected = false;
     }
+
     return lista;
   });
 
+  localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+  
   const listData = JSON.parse(localStorage.getItem(listName.value));
 
-  localStorage.setItem(newNameForList, JSON.stringify(listData));
-  localStorage.removeItem(listName.value);
-  localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+  if (listData) {
+    
+    localStorage.setItem(newNameForList, JSON.stringify(listData));
+  
+    localStorage.removeItem(listName.value);
+  }
 
   renderDataOnLoad();
-  atualizaTotais();
 }
 
 window.addEventListener("DOMContentLoaded", renderDataOnLoad);
