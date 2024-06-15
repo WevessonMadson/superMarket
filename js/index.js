@@ -159,6 +159,10 @@ function adicionar(e) {
 
   adicionarProdutoNoLocalStorage(prodDescr, prodQuant, priceUnit);
 
+  if (document.querySelector("#filtro").style.display == "flex") {
+    openCloseFiltro();
+  }
+
   document.querySelector("#descricao").value = "";
   document.querySelector("#quantidade").value = "1";
   document.querySelector("#preco").value = "0.00";
@@ -222,21 +226,46 @@ function reorganizar() {
   renderTotalList(dataMarket);
 }
 
-function atualizaTotais() {
-  saveData();
-  totProdSpan.innerText = Number(localStorage.getItem("total"))
-    .toFixed(2)
-    .replace(".", ",");
-  const dataMarket = JSON.parse(localStorage.getItem(listName.value));
-  for (let i = 0; i < trs.length; i++) {
-    trs[i].getElementsByClassName("total")[0].innerText =
-      dataMarket[i].total.toFixed(2);
-  }
-}
-
 function selectContent() {
   let curElement = document.activeElement;
   curElement.select();
+}
+
+function atualizaTotais() {
+  let dataMarket = JSON.parse(localStorage.getItem(listName.value));
+
+  let dataInPage = [];
+
+  for (let i = 0; i < trs.length; i++) {
+        let checked = trs[i].childNodes[0].childNodes[0].checked;
+        let descricao = trs[i].getElementsByClassName("descProd")[0].innerText;
+        let qtd = Number(trs[i].getElementsByClassName("inputQtd")[0].value);
+        let preco = Number(trs[i].getElementsByClassName("inputPreco")[0].value);
+        let total = Number(qtd) * Number(preco);
+
+        trs[i].getElementsByClassName("total")[0].innerText = total.toFixed(2);
+
+        dataInPage.push({ checked, descricao, qtd, preco, total })
+  }
+
+  dataInPage.forEach(produtoTela => {
+    dataMarket.forEach((produtoMarket, index) => {      
+      if (produtoMarket.descricao === produtoTela.descricao){
+
+        if (produtoMarket.qtd !== produtoTela.qtd || produtoMarket.preco !== produtoTela.preco) {
+          
+          dataMarket[index].qtd = produtoTela.qtd
+          dataMarket[index].preco = produtoTela.preco
+          dataMarket[index].total = dataMarket[index].qtd *dataMarket[index].preco
+        }
+
+      }
+    })
+  })
+
+  localStorage.setItem(listName.value, JSON.stringify(dataMarket));
+
+  renderTotalList(dataMarket);
 }
 
 function deleteInsertAll(e) {
@@ -248,7 +277,7 @@ function deleteInsertAll(e) {
         localStorage.removeItem(listName.value);
         localStorage.removeItem("total");
       }
-      getData();
+      renderDataOnLoad();
       return;
     } else {
       //insert all
@@ -259,8 +288,8 @@ function deleteInsertAll(e) {
         dataList.forEach((produto) => {
           tbody.innerHTML += newLinha(produto.descricao, produto.qtd);
         });
-        saveData();
-        getData();
+        // saveData();
+        renderDataOnLoad();
         return;
       }
     }
@@ -281,7 +310,7 @@ function selectListName(e) {
     return lista;
   });
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
-  getData();
+  renderDataOnLoad();
   atualizaTotais();
 }
 
@@ -299,7 +328,7 @@ function addList(e) {
   });
   newListOfList.push({ nome: nameNewList, selected: true });
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
-  getData();
+  renderDataOnLoad();
   atualizaTotais();
 }
 
@@ -313,7 +342,7 @@ function deleteList(e) {
     );
     localStorage.removeItem(listName.value);
     localStorage.setItem("listOfList", JSON.stringify(newListOfList));
-    getData();
+    renderDataOnLoad();
     atualizaTotais();
   }
 }
@@ -353,7 +382,7 @@ function importList(e) {
         objectListImport.listName,
         JSON.stringify(objectListImport.listProducts)
       );
-      getData();
+      renderDataOnLoad();
       atualizaTotais();
     }
   }
@@ -388,7 +417,7 @@ function editList(e) {
   localStorage.removeItem(listName.value);
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
 
-  getData();
+  renderDataOnLoad();
   atualizaTotais();
 }
 
@@ -444,7 +473,7 @@ function openCloseFiltro() {
   } else {
     textoFiltro.value = "";
     filtro.style.display = "";
-    getData();
+    renderDataOnLoad();
   }
 }
 
