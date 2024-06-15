@@ -395,6 +395,8 @@ function addList(e) {
 
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
 
+  closeFiltro();
+
   renderDataOnLoad();
 }
 
@@ -412,6 +414,8 @@ function deleteList(e) {
     localStorage.removeItem(listName.value);
 
     localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
+    closeFiltro();
 
     renderDataOnLoad();
   }
@@ -498,6 +502,8 @@ function importList(e) {
       listImport.listName,
       JSON.stringify(listImport.listProducts)
     );
+
+    closeFiltro();
     
     renderDataOnLoad();
   }
@@ -553,6 +559,8 @@ function editList(e) {
   
     localStorage.removeItem(listName.value);
   }
+
+  closeFiltro();
 
   renderDataOnLoad();
 }
