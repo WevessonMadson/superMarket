@@ -1,10 +1,6 @@
 const tbody = document.querySelector("#tbody");
-const botaoAdicionar = document.querySelector("#adicionar");
-const totProdSpan = document.querySelector("#valTotCar");
 const trs = document.getElementsByClassName("trTableValue");
-const acao = document.querySelector("#acao");
 const listName = document.querySelector("#listName");
-const btnAcoesListas = document.querySelector("#action-option-list");
 
 function newLinha(
   descricao,
@@ -58,6 +54,7 @@ function renderBodyTable(listOfProducts) {
 
 function renderTotalList(listOfProducts) {
   const config = getConfig();
+  const totProdSpan = document.querySelector("#valTotCar");
 
   let total = 0;
 
@@ -87,6 +84,8 @@ function renderDataOnLoad() {
     renderBodyTable(listaDeProdutos);
 
     renderTotalList(listaDeProdutos);
+  } else {
+    tbody.innerHTML = "";
   }
 
 
@@ -268,33 +267,35 @@ function atualizaTotais() {
   renderTotalList(dataMarket);
 }
 
-function deleteInsertAll(e) {
-  const dataMarket = localStorage.getItem(listName.value);
-  try {
-    if (dataMarket && dataMarket !== "[]") {
-      //delete all
-      if (confirm(`Tem certeza que quer "LIMPAR A LISTA"?`)) {
-        localStorage.removeItem(listName.value);
-        localStorage.removeItem("total");
-      }
-      renderDataOnLoad();
-      return;
-    } else {
-      //insert all
-      const jsonList = prompt("Cole aqui o json com a lista...");
-      const dataList = JSON.parse(jsonList);
+function openCloseFiltro() {
+  let filtro = document.querySelector("#filtro");
 
-      if (dataList && typeof dataList === "object") {
-        dataList.forEach((produto) => {
-          tbody.innerHTML += newLinha(produto.descricao, produto.qtd);
-        });
-        // saveData();
-        renderDataOnLoad();
-        return;
-      }
+  let textoFiltro = document.querySelector("#texto-filtro");
+
+  if (filtro.style.display == "") {
+    filtro.style.display = "flex";
+    textoFiltro.focus();
+  } else {
+    textoFiltro.value = "";
+    filtro.style.display = "";
+    renderDataOnLoad();
+  }
+}
+
+function realizaFiltroNosProdutos(e) {
+  if (e) e.preventDefault();
+
+  let textoFiltro = document.querySelector("#texto-filtro").value;
+
+  if (textoFiltro.length > 2) {
+    let dataMarket = JSON.parse(localStorage.getItem(listName.value));
+    
+    if (dataMarket) {
+      let produtosFiltrados = dataMarket.filter(produto => produto.descricao.toLowerCase().includes(textoFiltro.trim().toLowerCase()));
+      renderBodyTable(produtosFiltrados);
     }
-  } catch (error) {
-    alert("Por favor, verifique o json passado.");
+  } else if (textoFiltro.length == 0) {
+    renderDataOnLoad();
   }
 }
 
@@ -311,7 +312,47 @@ function selectListName(e) {
   });
   localStorage.setItem("listOfList", JSON.stringify(newListOfList));
   renderDataOnLoad();
-  atualizaTotais();
+}
+
+function renderAcoesListas(e) {
+  if (e) e.preventDefault();
+
+  function closeSubMenu(e) {
+    if (e) e.preventDefault();
+  
+    const fade = document.querySelector(".fade.sub-menu");
+  
+    if (fade) {
+      fade.remove();
+    }
+  }
+  
+  const header = document.querySelector("#header");
+  
+  const fade =  document.createElement("div");
+  fade.className = "fade sub-menu";
+
+  document.body.insertBefore(fade, header);
+
+  const subMenu = document.createElement("ul");
+
+  subMenu.id = "sub-menu";
+
+  subMenu.innerHTML = `
+    <li id="addList" class="li-sub-menu" onclick="addList()"><span class="material-symbols-outlined">add</span><span class="descr-list">Nova Lista</span></li>
+
+    <li id="exportList" class="li-sub-menu" onclick="exportList()"><span class="material-symbols-outlined">share</span><span class="descr-list">Exportar Lista</span></li>
+    
+    <li id="importList" class="li-sub-menu" onclick="importList()"><span class="material-symbols-outlined">ios_share</span><span class="descr-list">Importar Lista</span></li>
+    
+    <li id="editList" class="li-sub-menu" onclick="editList()"><span class="material-symbols-outlined">edit</span><span class="descr-list">Editar Nome</span></li>
+    
+    <li id="deleteList" class="li-sub-menu" onclick="deleteList()"><span class="material-symbols-outlined">delete</span><span class="descr-list">Deletar Lista</span></li>
+    `;
+
+  fade.appendChild(subMenu)
+
+  fade.addEventListener("click", closeSubMenu);
 }
 
 function addList(e) {
@@ -421,82 +462,8 @@ function editList(e) {
   atualizaTotais();
 }
 
-function renderAcoesListas(e) {
-  if (e) e.preventDefault();
-
-  function closeSubMenu(e) {
-    if (e) e.preventDefault();
-  
-    const fade = document.querySelector(".fade.sub-menu");
-  
-    if (fade) {
-      fade.remove();
-    }
-  }
-  
-  const header = document.querySelector("#header");
-  
-  const fade =  document.createElement("div");
-  fade.className = "fade sub-menu";
-
-  document.body.insertBefore(fade, header);
-
-  const subMenu = document.createElement("ul");
-
-  subMenu.id = "sub-menu";
-
-  subMenu.innerHTML = `
-    <li id="addList" class="li-sub-menu" onclick="addList()"><span class="material-symbols-outlined">add</span><span class="descr-list">Nova Lista</span></li>
-
-    <li id="exportList" class="li-sub-menu" onclick="exportList()"><span class="material-symbols-outlined">share</span><span class="descr-list">Exportar Lista</span></li>
-    
-    <li id="importList" class="li-sub-menu" onclick="importList()"><span class="material-symbols-outlined">ios_share</span><span class="descr-list">Importar Lista</span></li>
-    
-    <li id="editList" class="li-sub-menu" onclick="editList()"><span class="material-symbols-outlined">edit</span><span class="descr-list">Editar Nome</span></li>
-    
-    <li id="deleteList" class="li-sub-menu" onclick="deleteList()"><span class="material-symbols-outlined">delete</span><span class="descr-list">Deletar Lista</span></li>
-    `;
-
-  fade.appendChild(subMenu)
-
-  fade.addEventListener("click", closeSubMenu);
-}
-
-function openCloseFiltro() {
-  let filtro = document.querySelector("#filtro");
-
-  let textoFiltro = document.querySelector("#texto-filtro");
-
-  if (filtro.style.display == "") {
-    filtro.style.display = "flex";
-    textoFiltro.focus();
-  } else {
-    textoFiltro.value = "";
-    filtro.style.display = "";
-    renderDataOnLoad();
-  }
-}
-
-function realizaFiltroNosProdutos(e) {
-  if (e) e.preventDefault();
-
-  let textoFiltro = document.querySelector("#texto-filtro").value;
-
-  if (textoFiltro.length > 2) {
-    let dataMarket = JSON.parse(localStorage.getItem(listName.value));
-    
-    if (dataMarket) {
-      let produtosFiltrados = dataMarket.filter(produto => produto.descricao.toLowerCase().includes(textoFiltro.trim().toLowerCase()));
-      renderBodyTable(produtosFiltrados);
-    }
-  } else if (textoFiltro.length == 0) {
-    renderDataOnLoad();
-  }
-}
-
 window.addEventListener("DOMContentLoaded", renderDataOnLoad);
-botaoAdicionar.addEventListener("click", adicionar);
-tbody.addEventListener("click", deleteProd);
-acao.addEventListener("dblclick", deleteInsertAll);
+document.querySelector("#adicionar").addEventListener("click", adicionar);
 listName.addEventListener("change", selectListName);
-btnAcoesListas.addEventListener("click", renderAcoesListas);
+tbody.addEventListener("click", deleteProd);
+document.querySelector("#action-option-list").addEventListener("click", renderAcoesListas);
