@@ -25,6 +25,101 @@ function newLinha(
     <td class="total">${total}</td><td class="action"><span class="material-symbols-outlined">delete</span></td></tr>`;
 }
 
+function renderBodyTable(listOfProducts) {
+  tbody.innerHTML = "";
+
+  let listaOrdenada = orderByChecked(listOfProducts);
+
+  listaOrdenada.forEach(produto => {
+        tbody.innerHTML += newLinha(
+          produto.descricao,
+          produto.qtd,
+          produto.preco,
+          produto.total,
+          produto.checked
+        );
+    });
+
+    function orderByChecked(listaDeProdutos) {
+      const check = [];
+      const noCheck = [];
+  
+      listaDeProdutos.forEach(produto => {
+        if (produto.checked) {
+          check.push(produto);
+        } else {
+          noCheck.push(produto);
+        }      
+      })
+  
+      return noCheck.concat(check);
+    }
+};
+
+function renderTotalList(listOfProducts) {
+  const config = getConfig();
+
+  let total = 0;
+
+  listOfProducts.forEach(produto => {
+    if (config.sumOnlyChecked) {
+      if (produto.checked) {
+        total += produto.total; 
+      } 
+    } else {
+      total += produto.total;
+    }
+  });
+
+  totProdSpan.innerText = total.toFixed(2).replace(".", ",");
+
+  localStorage.setItem("total", total);
+};
+
+function renderDataOnLoad() {
+  updateOptionsList();
+
+  const dataMarket = localStorage.getItem(listName.value);
+
+  if (dataMarket) {
+    let listaDeProdutos = JSON.parse(dataMarket);
+
+    renderBodyTable(listaDeProdutos);
+
+    renderTotalList(listaDeProdutos);
+  }
+
+
+  function updateOptionsList() {
+    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+  
+    if (listOfList) {
+      let options = "";
+      const selected = listOfList.filter((lista) => lista.selected === true);
+      const unSelected = listOfList.filter((lista) => lista.selected === false);
+      const listFinal = selected.concat(unSelected);
+  
+      for (let i = 0; i < listFinal.length; i++) {
+        options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
+      }
+      listName.innerHTML = options;
+      if (listOfList[0] === undefined) {
+        localStorage.setItem(
+          "listOfList",
+          '[{"nome": "superMarket", "selected": true}]'
+        );
+        listName.innerHTML = `<option value="superMarket">superMarket</option>`;
+      }
+    } else {
+      localStorage.setItem(
+        "listOfList",
+        '[{"nome": "superMarket", "selected": true}]'
+      );
+      listName.innerHTML = `<option value="superMarket">superMarket</option>`;
+    }
+  }
+};
+
 function adicionar(e) {
   e.preventDefault();
 
@@ -56,12 +151,11 @@ function adicionar(e) {
   
     dataMarket.push({ checked, descricao, qtd, preco, total });
 
+    renderBodyTable(dataMarket);
     renderTotalList(dataMarket);
   
     localStorage.setItem(listName.value, JSON.stringify(dataMarket));
   }
-
-  tbody.innerHTML += newLinha(prodDescr, prodQuant, Number(priceUnit));
 
   adicionarProdutoNoLocalStorage(prodDescr, prodQuant, priceUnit);
 
@@ -94,27 +188,39 @@ function deleteProd(e) {
   }
 }
 
+function reorganizar() {
+  let dataMarket = JSON.parse(localStorage.getItem(listName.value));
 
-// function saveData() {
-//   let dataListaAtual = JSON.parse(localStorage.getItem(listName.value)) || [];
+  let dataInPage = [];
 
-//   for (let i = 0; i < trs.length; i++) {
-//     let checked = trs[i].childNodes[0].childNodes[0].checked;
-//     let descricao = trs[i].getElementsByClassName("descProd")[0].innerText;
-//     let qtd = Number(trs[i].getElementsByClassName("inputQtd")[0].value);
-//     let preco = Number(trs[i].getElementsByClassName("inputPreco")[0].value);
-//     let total = Number(qtd) * Number(preco);
+  for (let i = 0; i < trs.length; i++) {
+        let checked = trs[i].childNodes[0].childNodes[0].checked;
+        let descricao = trs[i].getElementsByClassName("descProd")[0].innerText;
+        let qtd = Number(trs[i].getElementsByClassName("inputQtd")[0].value);
+        let preco = Number(trs[i].getElementsByClassName("inputPreco")[0].value);
+        let total = Number(qtd) * Number(preco);
 
-//     dataListaAtual.forEach((produto, index) => {
-//       if (descricao == produto.descricao) {
-//         dataListaAtual[index] = { checked, descricao, qtd, preco, total }
-//       }
-//     })
-//   }
+        dataInPage.push({ checked, descricao, qtd, preco, total })
+  }
 
-//   localStorage.setItem(listName.value, JSON.stringify(dataMarket));
-//   localStorage.setItem("total", JSON.stringify(totProd));
-// }
+  dataInPage.forEach(produtoTela => {
+    dataMarket.forEach((produtoMarket, index) => {      
+      if (produtoMarket.descricao === produtoTela.descricao){
+
+        if (produtoMarket.checked !== produtoTela.checked) {
+          
+          dataMarket[index].checked = produtoTela.checked
+        }
+
+      }
+    })
+  })
+
+  localStorage.setItem(listName.value, JSON.stringify(dataMarket));
+
+  renderBodyTable(dataInPage);
+  renderTotalList(dataMarket);
+}
 
 function atualizaTotais() {
   saveData();
@@ -131,10 +237,6 @@ function atualizaTotais() {
 function selectContent() {
   let curElement = document.activeElement;
   curElement.select();
-}
-
-function reorganizar() {
-  getData();
 }
 
 function deleteInsertAll(e) {
@@ -369,99 +471,3 @@ tbody.addEventListener("click", deleteProd);
 acao.addEventListener("dblclick", deleteInsertAll);
 listName.addEventListener("change", selectListName);
 btnAcoesListas.addEventListener("click", renderAcoesListas);
-
-
-function renderBodyTable(listOfProducts) {
-  tbody.innerHTML = "";
-
-  let listaOrdenada = orderByChecked(listOfProducts);
-
-  listaOrdenada.forEach(produto => {
-        tbody.innerHTML += newLinha(
-          produto.descricao,
-          produto.qtd,
-          produto.preco,
-          produto.total,
-          produto.checked
-        );
-    });
-
-    function orderByChecked(listaDeProdutos) {
-      const check = [];
-      const noCheck = [];
-  
-      listaDeProdutos.forEach(produto => {
-        if (produto.checked) {
-          check.push(produto);
-        } else {
-          noCheck.push(produto);
-        }      
-      })
-  
-      return noCheck.concat(check);
-    }
-};
-
-function renderTotalList(listOfProducts) {
-  const config = getConfig();
-
-  let total = 0;
-
-  listOfProducts.forEach(produto => {
-    if (config.sumOnlyChecked) {
-      if (produto.checked) {
-        total += produto.total; 
-      } 
-    } else {
-      total += produto.total;
-    }
-  });
-
-  totProdSpan.innerText = total.toFixed(2).replace(".", ",");
-
-  localStorage.setItem("total", total);
-};
-
-function renderDataOnLoad() {
-  updateOptionsList();
-
-  const dataMarket = localStorage.getItem(listName.value);
-
-  if (dataMarket) {
-    let listaDeProdutos = JSON.parse(dataMarket);
-
-    renderBodyTable(listaDeProdutos);
-
-    renderTotalList(listaDeProdutos);
-  }
-
-
-  function updateOptionsList() {
-    const listOfList = JSON.parse(localStorage.getItem("listOfList"));
-  
-    if (listOfList) {
-      let options = "";
-      const selected = listOfList.filter((lista) => lista.selected === true);
-      const unSelected = listOfList.filter((lista) => lista.selected === false);
-      const listFinal = selected.concat(unSelected);
-  
-      for (let i = 0; i < listFinal.length; i++) {
-        options += `<option value="${listFinal[i].nome}">${listFinal[i].nome}</option>`;
-      }
-      listName.innerHTML = options;
-      if (listOfList[0] === undefined) {
-        localStorage.setItem(
-          "listOfList",
-          '[{"nome": "superMarket", "selected": true}]'
-        );
-        listName.innerHTML = `<option value="superMarket">superMarket</option>`;
-      }
-    } else {
-      localStorage.setItem(
-        "listOfList",
-        '[{"nome": "superMarket", "selected": true}]'
-      );
-      listName.innerHTML = `<option value="superMarket">superMarket</option>`;
-    }
-  }
-};
