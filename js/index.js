@@ -407,11 +407,13 @@ function deleteList(e) {
 
     const listOfList = JSON.parse(localStorage.getItem("listOfList"));
 
-    const newListOfList = listOfList.filter(
+    let newListOfList = listOfList.filter(
       (lista) => lista.nome != listName.value
     );
 
     localStorage.removeItem(listName.value);
+
+    newListOfList = !newListOfList.length ? [{nome: "superMarket", selected: true}] : newListOfList;
 
     localStorage.setItem("listOfList", JSON.stringify(newListOfList));
 
