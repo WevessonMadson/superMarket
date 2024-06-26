@@ -9,7 +9,7 @@ if ("serviceWorker" in navigator) {
 }
 
 function renderMenu() {
-  let htmlMenuList = `<li id="admList" class="li-menu-item" onclick="goToScreen('Home')"><span
+  let htmlMenuList = `<li id="homeList" class="li-menu-item" onclick="goToScreen('Home')"><span
                         class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
                 </li>
                 <li id="admList" class="li-menu-item" onclick="goToScreen('Adm. Listas')"><span
