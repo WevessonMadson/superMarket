@@ -40,7 +40,8 @@
   align-items: center;
   background-color: #05a1f55f;
   padding: 3px 50px 3px 10px;
-  font-size: 18px;
+  font-size: 20px;
+  color: #fff;  
 }
 
 .li-menu-item:active {

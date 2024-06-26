@@ -12,9 +12,9 @@ function renderMenu() {
   let htmlMenuList = `<li id="homeList" class="li-menu-item" onclick="goToScreen('Home')"><span
                         class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
                 </li>
-                <li id="admList" class="li-menu-item" onclick="goToScreen('Adm. Listas')"><span
+                <!--<li id="admList" class="li-menu-item" onclick="goToScreen('Adm. Listas')"><span
                         class="material-symbols-outlined">list_alt</span><span class="descr-list">Adm. Listas</span>
-                </li>
+                </li>-->
                 <li id="settings" class="li-menu-item" onclick="goToScreen('Configurações')"><span
                         class="material-symbols-outlined">settings</span><span class="descr-list">Configurações</span>
                 </li>
