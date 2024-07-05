@@ -354,6 +354,8 @@ function renderAcoesListas(e) {
     <li id="deleteList" class="li-sub-menu" onclick="deleteList()"><span class="material-symbols-outlined">delete</span><span class="descr-list">Deletar Lista</span></li>
     
     <li id="resetList" class="li-sub-menu" onclick="resetList()"><span class="material-symbols-outlined">restart_alt</span><span class="descr-list">Zerar preço/quantidade</span></li>
+    
+    <li id="duplicateList" class="li-sub-menu" onclick="duplicateList()"><span class="material-symbols-outlined">file_copy</span><span class="descr-list">Duplicar lista</span></li>
     `;
 
   fade.appendChild(subMenu)
@@ -663,6 +665,55 @@ function resetList() {
   botaoCancelar.addEventListener("click", fecharModal);
   
   document.body.insertBefore(fade, header);
+}
+
+function duplicateList() {
+  let dataList = localStorage.getItem(listName.value) || "[]";
+
+  let nameNewList = prompt("Informe um nome para a lista que será criada:");
+
+  if (!nameNewList) return;
+
+  nameNewList = nameNewList.trim();
+
+  if (nameNewList === "") return;
+
+  let jaExisteNaLista = false;
+
+  const listOfList = JSON.parse(localStorage.getItem("listOfList"));
+
+  listOfList.forEach(lista => {
+    if (lista.nome == nameNewList) {
+      jaExisteNaLista = true;
+    }
+  })
+
+  if (jaExisteNaLista) {
+    alert("Já existe uma lista com esse nome, tente outro.")
+
+    return;
+  }
+
+  const newListOfList = listOfList.map((lista) => {
+
+    lista.selected = false;
+
+    return lista;
+  });
+
+  localStorage.setItem(nameNewList, dataList);
+  
+  newListOfList.unshift({ nome: nameNewList, selected: true });
+
+  localStorage.setItem("listOfList", JSON.stringify(newListOfList));
+
+  listName.value = nameNewList;
+
+  if (confirm("Quer realizar o zeramento de quantidades e/ou preços dessa nova lista?")) {
+    resetList();
+  }
+
+  closeFiltro();
 }
 
 window.addEventListener("DOMContentLoaded", renderDataOnLoad);
