@@ -352,6 +352,8 @@ function renderAcoesListas(e) {
     <li id="editList" class="li-sub-menu" onclick="editList()"><span class="material-symbols-outlined">edit</span><span class="descr-list">Editar Nome</span></li>
     
     <li id="deleteList" class="li-sub-menu" onclick="deleteList()"><span class="material-symbols-outlined">delete</span><span class="descr-list">Deletar Lista</span></li>
+    
+    <li id="resetList" class="li-sub-menu" onclick="resetList()"><span class="material-symbols-outlined">restart_alt</span><span class="descr-list">Zerar preço/quantidade</span></li>
     `;
 
   fade.appendChild(subMenu)
@@ -565,6 +567,102 @@ function editList(e) {
   closeFiltro();
 
   renderDataOnLoad();
+}
+
+function resetList() {
+  let fade = document.createElement("div");
+
+  fade.classList.add("fade-zeramento");
+
+  fade.innerHTML = `
+    <div class="modal-zeramento">
+
+    <p class="modal-zeramento__info">Selecione quais os campos deseja zerar da lista <strong>${listName.value}</strong>:</p>
+    
+    <label for="zera-quantidades">
+      <input type="checkbox" name="zera-quantidades" id="zera-quantidades" />
+      Zerar quantidades
+    </label>
+
+    <label for="zera-precos">
+      <input type="checkbox" name="zera-precos" id="zera-precos" />
+      Zerar preços
+    </label>
+
+    <div class="modal-zeramento__botoes">
+      <button class="modal-zeramento__botao modal-zeramento__botao__active">Confirmar</button>
+
+      <button class="modal-zeramento__botao">Cancelar</button>
+    </div>
+
+    </div>
+  `;
+
+  let modal = fade.children[0]
+
+  let botoes = modal.children[3].children;
+
+  let botaoConfirmar = botoes[0];
+  
+  let botaoCancelar = botoes[1];
+
+  function fecharModal() {
+    fade.remove();
+  }
+
+  function confirmar() {
+    let inputs = modal.querySelectorAll("input");
+
+    let zeraQuantidade = inputs[0].checked;
+    let zeraPreco = inputs[1].checked;
+
+    let pergunta = "Tem certeza que deseja zerar ";
+
+    if (zeraPreco && zeraQuantidade) {
+      pergunta += "quantidades e preços?";
+
+    } else if (zeraPreco) {
+      pergunta += "preços?";
+
+    } else if(zeraQuantidade) {
+      pergunta += "quantidades?";
+
+    } else {
+      alert("Para prosseguir, por favor marque quais campos deseja zerar.");
+      return;
+    }
+
+    if (confirm(pergunta)) {
+      let dataList = JSON.parse(localStorage.getItem(listName.value)) || false;
+
+      if (!dataList) {
+        fecharModal();
+        return;
+      }
+
+      dataList = dataList.map(produto => {
+        if (zeraPreco) produto.preco = 0;
+        
+        if (zeraQuantidade) produto.qtd = 0;
+
+        produto.total = 0;
+    
+        return produto;
+      })
+
+      localStorage.setItem(listName.value, JSON.stringify(dataList));
+
+      renderBodyTable(dataList);
+      renderTotalList(dataList);
+
+      fecharModal();
+    }
+  }
+
+  botaoConfirmar.addEventListener("click", confirmar);
+  botaoCancelar.addEventListener("click", fecharModal);
+  
+  document.body.insertBefore(fade, header);
 }
 
 window.addEventListener("DOMContentLoaded", renderDataOnLoad);
