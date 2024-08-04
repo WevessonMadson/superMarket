@@ -77,7 +77,6 @@
 }
 
 #descricao-table {
-  display: flex;
   align-items: baseline;
   justify-content: center;
   border-spacing: 0px;

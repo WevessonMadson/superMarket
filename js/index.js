@@ -265,6 +265,8 @@ function openFiltro(){
   let filtro = document.querySelector("#filtro");
 
   let textoFiltro = document.querySelector("#texto-filtro");
+  
+  document.querySelector("#descricao-table").style.display = "flex";
 
   filtro.style.display = "flex";
   textoFiltro.focus();
@@ -274,6 +276,8 @@ function closeFiltro() {
   let filtro = document.querySelector("#filtro");
 
   let textoFiltro = document.querySelector("#texto-filtro");
+
+  document.querySelector("#descricao-table").style.display = "";
 
   textoFiltro.value = "";
   filtro.style.display = "";
