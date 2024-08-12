@@ -163,6 +163,7 @@ table {
 
 .fade.sub-menu {
   background-color: transparent;
+  opacity: 1;
 }
 
 #sub-menu {  
