@@ -232,7 +232,7 @@ table {
 }
 
 .modal-zeramento__botao__active {
-  background-color: #05a9f5c3;
+  background-color: var(--btn-action-save-bg-color);
 }
 
 @media screen and (min-height: 710px) {
