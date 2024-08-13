@@ -15,11 +15,12 @@
   --text-area-bg-color: #f5f4f4;
   --filter-github-logo: unset;
   --li-menu-bg-color: #05a1f55f;
+  --modal-zeramento-bg-color: #ffffff;
 }
 
 :root.dark {
   --body-bg-color: #000;
-  --header-bg-color: #013588;
+  --header-bg-color: #05a2f5;
   --inputs-form-bg-color: #3b3b3b;
   --font-color: #fff;
   --tr-odd-bg-color: #3b3b3b;
@@ -32,6 +33,7 @@
   --text-area-bg-color: #3b3b3b;
   --filter-github-logo: invert(90%);
   --li-menu-bg-color: #023e5e6c;
+  --modal-zeramento-bg-color: #555454;
 }
 
 * {
