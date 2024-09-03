@@ -9,8 +9,6 @@ if ("serviceWorker" in navigator) {
 }
 
 function renderMenu() {
-  const theme = localStorage.getItem("theme");
-
   let htmlMenuList = `<li id="homeList" class="li-menu-item" onclick="goToScreen('Home')"><span
                         class="material-symbols-outlined">home</span><span class="descr-list">Home</span>
                 </li>
@@ -25,9 +23,7 @@ function renderMenu() {
                 <li id="aboutMenu" class="li-menu-item" onclick="goToScreen('Sobre')"><span
                         class="material-symbols-outlined">info</span><span class="descr-list">Sobre</span></li>
                 <li id="sugestionMenu" class="li-menu-item" onclick="goToScreen('Sugestao')"><span
-                        class="material-symbols-outlined">prompt_suggestion</span><span class="descr-list">Melhoria / Problema</span></li>
-                <li id="btn-darmode" class="li-menu-item" onclick="darkMode()"><span
-                        class="material-symbols-outlined"><img src="../assets/dark-mode.png"></span><span class="descr-list">Mudar para tema <span id="theme">${theme == "escuro" ? "claro" : "escuro"}</span></span></li>`;
+                        class="material-symbols-outlined">prompt_suggestion</span><span class="descr-list">Melhoria / Problema</span></li>`;
 
   const menuList = document.getElementById("menu-list");
 
@@ -137,29 +133,5 @@ function goToScreen(nextPage) {
   window.location.href = url
 }
 
-function darkMode() {
-  const textTheme = document.querySelector("#theme");
-  const html = document.querySelector("html");
-  
-  html.classList.toggle("dark");
-
-  if (textTheme.innerText == "escuro") {
-    localStorage.setItem("theme", "escuro");
-  } else {
-    localStorage.setItem("theme", "claro");
-  }
-
-  menuOpenClose();
-}
-
-function loadDarkMode() {
-  let theme = localStorage.getItem("theme") || "claro";
-
-  if (theme == "escuro") {
-      document.querySelector("html").classList.toggle("dark");
-  }
-}
-
 btnMenu.addEventListener("click", menuOpenClose);
-window.addEventListener("load", loadDarkMode);
 
