@@ -22,13 +22,8 @@
     height: 150px;
     border-radius: 5px;
     padding: 10px;
-    background-color: var(--text-area-bg-color);
+    background-color: #f5f4f4;
 }
-
-#input-sugestion::placeholder {
-    color: var(--font-color);
-    opacity: 0.7;
-  }
 
 #send-sugestion {
     height: 50px;
