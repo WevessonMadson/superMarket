@@ -16,10 +16,6 @@
   width: 40px;
 }
 
-#github-logo {
-  filter: var(--filter-github-logo);
-}
-
 #copy {
   margin-bottom: 10px;
 }
