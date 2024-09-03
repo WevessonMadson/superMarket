@@ -1,53 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100;200;300;400;500;600;700;800;1000&display=swap");
 
-:root {
-  --body-bg-color: unset;
-  --header-bg-color: #05a2f5;
-  --inputs-form-bg-color: unset;
-  --font-color: unset;
-  --tr-odd-bg-color: #dadada;
-  --total-bg-color: #e5f1fc;
-  --btn-bg-color: unset;
-  --btn-action-save-bg-color: #05a9f5c3;
-  --filtro-bg-color: #fff;
-  --submenu-bg-color: #fff;
-  --border-color-text-info: #05a2f5;
-  --text-area-bg-color: #f5f4f4;
-  --filter-github-logo: unset;
-  --li-menu-bg-color: #05a1f55f;
-}
-
-:root.dark {
-  --body-bg-color: #000;
-  --header-bg-color: #013588;
-  --inputs-form-bg-color: #3b3b3b;
-  --font-color: #fff;
-  --tr-odd-bg-color: #3b3b3b;
-  --total-bg-color: #131f2b;
-  --btn-bg-color: #3b3b3b;
-  --btn-action-save-bg-color: #013588;
-  --filtro-bg-color: #3b3b3b;
-  --submenu-bg-color: #000;
-  --border-color-text-info: #013588;
-  --text-area-bg-color: #3b3b3b;
-  --filter-github-logo: invert(90%);
-  --li-menu-bg-color: #023e5e6c;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto Flex", sans-serif;
-  color: var(--font-color);
-}
-
-body {
-  background-color: var(--body-bg-color);
 }
 
 #header {
-  background-color: var(--header-bg-color);
+  background-color: #05a2f5;
   height: 40px;
   display: flex;
   align-items: center;
@@ -77,7 +38,7 @@ body {
 .li-menu-item {
   display: flex;
   align-items: center;
-  background-color: var(--li-menu-bg-color);
+  background-color: #05a1f55f;
   padding: 3px 50px 3px 10px;
   font-size: 20px;
   color: #fff;  
@@ -93,11 +54,10 @@ body {
   padding: 10px;
   cursor: pointer;
   min-width: 60px;
-  background-color: var(--btn-bg-color);
 }
 
 .btnActionSave {
-  background-color: var(--btn-action-save-bg-color);
+  background-color: #05a9f5c3;
 }
 
 .fade {
@@ -115,7 +75,7 @@ body {
 
 .info-texts {
   margin: 5px 7px 0px 7px;
-  border: 1px solid var(--border-color-text-info);
+  border: 1px solid #05a2f5;
   border-radius: 10px;
   padding: 10px;
 }
