@@ -293,7 +293,7 @@ function realizaFiltroNosProdutos(e) {
     let dataMarket = JSON.parse(localStorage.getItem(listName.value));
     
     if (dataMarket) {
-      let produtosFiltrados = dataMarket.filter(produto => produto.descricao.toLowerCase().includes(textoFiltro.trim().toLowerCase()));
+      let produtosFiltrados = dataMarket.filter(produto => produto.descricao.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(textoFiltro.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
       renderBodyTable(produtosFiltrados);
     }
   } else if (textoFiltro.length == 0) {
