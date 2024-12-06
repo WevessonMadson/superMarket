@@ -1,8 +1,14 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "io.github.wevessonmadson.twa",
-        "sha256_cert_fingerprints": ["35:36:2C:D1:AC:2D:FB:8B:C4:82:F4:05:78:69:DF:7F:41:74:78:34:33:DB:68:02:27:D4:7B:13:A4:B0:20:74"]
-      }
-    }]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.wevessonmadson.twa",
+      "sha256_cert_fingerprints": [
+        "2C:7A:E8:30:B5:4F:7F:23:73:B6:EE:BF:64:A9:4A:0E:B8:3C:F3:92:BD:F7:DA:2C:30:F4:E2:3B:01:A6:56:EC"
+      ]
+    }
+  }
+]
